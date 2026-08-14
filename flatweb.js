@@ -84,7 +84,7 @@ var moodMenu = {
             "View Lecture Information" : [{
 
                  "key"         : "l",
-                "command"     : "ShowLectureStructure()"
+                "command"     : "menu__showLectureStructure()"
                 
             }],
 
@@ -929,14 +929,22 @@ function alternatingRowColors() {
  *
  * @return 
  */
-function ShowLectureStructure () {
+function menu__showLectureStructure () {
 
     // We do a simple check to make sure the same call doesn't happen twice.
     if ($('.lecture-structure').length == 0) {
+
+        $('article').attr('id', 'blur-transition');
         
-        $('article').append('<div class="lecture-structure"></div>');  
+        $('body')
+            .append('<div class="lecture-structure" style="display:none;opacity=0.0"></div>');
+
+        $('.crosslinks-bottom').hide();
+        $('article').addClass("blur"); 
+        $('.lecture-structure').stop()
+            .animate({width: 'toggle', opacity: 'toggle' }, 'slow');  
         
-        $('.lecture-structure').after( function() {
+        $('.lecture-structure').promise().done(function() {
             $.ajax({
                 url:     'content/lecture-structure.html',
                 type:    'GET',
@@ -952,23 +960,19 @@ function ShowLectureStructure () {
                     $('.lecture-structure')
                         .find('h1').remove()
 
-                    // Remove the postamble containing `author', `date', and
-                    // `validation' as it is not needed.
-                    $('.lecture-structure')
-                        .find('#postamble').remove()
-                    
-
+                
                     // Redefine headers so they don't look to big and have the
                     // effect of a `section' header rather than a `chapter'
                     // header.
                     $('.lecture-structure')
                         .find('h2').each(function() {
                             $(this)
-                                .replaceWith('<h3>' +
+                                .replaceWith('<div class="lecture-structure-header"><h3>' +
                                              $(this).html() +
-                                             '</h3>')
+                                             '</div></h3>')                                
                         });
 
+                    
                     // Remove some attributes from table to make them more like
                     // the tables of webBook.
                      $('.lecture-structure')
@@ -984,6 +988,16 @@ function ShowLectureStructure () {
         });
 
     } else {
+
+        $('.lecture-structure').stop()
+            .animate({width: 'toggle'}, 'slow');
+        $('article').removeClass("blur");
+        $('body').find('.lecture-structure').remove();
+        $('.crosslinks-bottom')
+                .animate({height: 'toggle', opacity: 'toggle' }, 'slow');
+        
+        
+        
     }
     // Now we do our standard cleanup process to tidy the information
     // content within the div.
@@ -1615,24 +1629,6 @@ $(document).ready(function () {
         bool_marginImageCheck = true;
         
     }
-
-
-    // if($(this).width() <= 1200) {
-
-    //     $("nav.wide")
-    //         .stop()
-    //         .hide('slow');
-        
-    //     $('.crosslinks-bottom').css('width', '100%')
-
-    // } else {
-
-    //     $("nav.wide")
-    //         .stop()
-    //         .show('slow');
-    //     $('.crosslinks-bottom').css('width', 'calc(100% - 336px)')
-    // }
-    
 });
 
 
@@ -1644,37 +1640,45 @@ $(document).ready(function () {
 // navigation.
 
 document.addEventListener("keypress", function(event) {
-    // if (document.querySelectorAll('dialog')[0].checkVisibility()){
-    // } else {
-        if (event.key == 't') {
-            menu__toggleTOC();
-        } else if (event.key == 'n') {
-            navigate__gotoNextChapter()
-        } else if (event.key == 'p') {
-            navigate__gotoPrevChapter()
-        } else if (event.key == 'b') {
-            window.scrollTo(0, document.body.scrollHeight);
-        } else if (event.key == 'u') {
-            document.body.scrollTop = document.documentElement.scrollTop = 0;
-        } else if (event.key == 'd') {
-            navigate__gotoChapterPage()
-        } else if (event.key == 'l') {
-            ShowLectureStructure();
-        } else if (event.key == 'h') {
-            ShowHelpMenu();
-        } else if (event.key == 'i') {
-            window.location.href = entryPoint;
-        } else if (event.key == 'q') {
-            // Kill documentation window with the class `.documentation'.
-            $('article').find('.documentation').remove();
-            $('article').find('.lecture-structure').remove();
-            $('article').find('.reference-page').remove();
-        }
-//    }
+
+    switch (event.key) {
+
+    case "t":
+        menu__toggleTOC();
+
+        break;
+
+    case "n":
+        navigate__gotoNextChapter();
+         break;
+
+    case "p":
+        navigate__gotoPrevChapter();
+         break;
+
+    case "b":
+        window.scrollTo(0, document.body.scrollHeight);
+         break;
+
+    case "u":
+        document.body.scrollTop = document.documentElement.scrollTop = 0;
+         break;
+
+    case "d":
+        navigate__gotoChapterPage();
+         break;
+
+    case "l":
+        menu__showLectureStructure();
+         break;
+
+    case "i":
+        window.location.href = entryPoint;
+         break;
+        
+    }
+    
 });
-
-
-
 
 // -----------------------------------------------------------------------------
 // flatjs.js ends here.

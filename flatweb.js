@@ -687,7 +687,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 
 /** 
- * Remove some text about the index and the number 0 as they are remnants
+ * Remove some text about the index and the number 0 as they are a remnants
  * and are also there as an `index.html' is required by github
  * pages. Here, we quickly fixt the naming of them for better presentation.
  *
@@ -1644,8 +1644,8 @@ $(document).ready(function () {
 // navigation.
 
 document.addEventListener("keypress", function(event) {
-    if (document.querySelectorAll('dialog')[0].checkVisibility()){
-    } else {
+    // if (document.querySelectorAll('dialog')[0].checkVisibility()){
+    // } else {
         if (event.key == 't') {
             menu__toggleTOC();
         } else if (event.key == 'n') {
@@ -1670,7 +1670,7 @@ document.addEventListener("keypress", function(event) {
             $('article').find('.lecture-structure').remove();
             $('article').find('.reference-page').remove();
         }
-    }
+//    }
 });
 
 

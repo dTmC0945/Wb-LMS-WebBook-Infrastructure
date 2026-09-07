@@ -679,6 +679,13 @@ function HideMyBody(selected_button) {
 // Code Higlighting ------------------------------------------------------------
 
 document.addEventListener('DOMContentLoaded', (event) => {
+
+    // Here we make sure all the leading and trailing whitespaces are removed.
+    $('pre').find('code').each(function(){
+        $(this).text('\n' + $(this)
+                     .text().replace(/^\s+|\s+$/g, ''));
+    });
+    
     document.querySelectorAll('pre code').forEach((block) => {
         hljs.addPlugin(new CopyButtonPlugin());
         hljs.highlightElement(block);

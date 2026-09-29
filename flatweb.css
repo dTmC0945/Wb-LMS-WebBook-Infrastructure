@@ -27,24 +27,41 @@
     --header-color: #eee8d5;
     --header-color-05: color-mix(var(--header-color), black 5%);
     --header-color-10: color-mix(var(--header-color), black 10%);
+    --modeline-color :  #363737;
 
     --link-color       : #1481b8;
+    --link-inact-top   : #fdf6e3;
+    --link-inact-bot   : #2b2c2c;
     --sidenote-color   : #2C2D2d;
     --block-text-color : #444;
     --core-line-color  : #2C2D2d;
     --alert-color      : #B9484C;
     --verb-color       : #fdf6e3;
     --verb-text-color  : #586e75;
+    --code-color       : #bf0000;
+    --comment-color    : #fdf6e3;
+    --quote-color      : #88807B;
 
     /* Block settings */
     --alert-block     : #fcc055;
+    --alert-body      : #fef2dd;
     --knowledge-block : #4fb1a1;
+    --knowledge-body  : #dcefec;
     --info-block      : #7BA591;
+    --info-body       : #e5ede9;
+    
     --exer-block      : #326199;
+    --exer-body       : #e8eff7;
+    
     --theo-block      : #42395f;
+    --theo-body       : #ebe9f2;
+    
     --desc-block      : #eb8d50;
+    --desc-body       : #fbe8dc;
     --docs-block      : snow;
-    --code-block      : #586e75; 
+    --code-block      : #586e75;
+    --code-h-block    : #F2F2F2;
+
 
     /* Colour domain settings */
     --fundamental-science : #42395f;
@@ -69,22 +86,40 @@
     --text-lineheight    : 1.8;
     --tblr-lineheight    : 1.5;
 
+    --tblr-inner-brdr    : 0.5px solid gray;
+    --nav-thin-line      : 0.2px solid black;
+
     --main-text-font:              15px  "Roboto", sans-serif;
+    --toc-title-font:       bold   20px  "Roboto", sans-serif;
+    --toc-s-----font:              15px  "Roboto", sans-serif;
+    --toc-ss----font:              12px  "Roboto", sans-serif;
+    --toc-sss---font:              12px  "Roboto", sans-serif;
     --box--text-font:              14px  "Roboto", sans-serif;
     --tblr-text-font:       normal 14px  "Roboto", sans-serif;
     --side-text-font:       normal 12px  "Roboto", sans-serif;
-    --quot-text-font:       normal 16px  "Roboto", sans-serif;
+    --quot-text-font:       normal 14px  "Roboto", sans-serif;
+    --toc--text-font:       normal 16px  "Roboto", sans-serif;
+    --chap-head-font:       normal 16px / 30px  "Roboto", sans-serif;
     --mode-text-font:       normal 12px  "Roboto", sans-serif;
     --supp-text-font:       normal 13px  "Roboto", sans-serif;
+    --comm-text-font:       normal 13px / 20px "Roboto", sans-serif;
+    --code-text-font:       normal 13px / 20px "Source Code Pro", Menlo, Consolas, Monaco, monospace;
+    
 
     --h1---text-font:       bold   48px  "Roboto", sans-serif;
     --h2---text-font:       bold   48px  "Roboto", sans-serif;
+
+    --h1-s-text-font:       bold   30px  "Roboto", sans-serif;
+    --h3-s-text-font:       bold   24px / 30px  "Roboto", sans-serif;
+    --h4-s-text-font:       bold   20px / 30px  "Roboto", sans-serif;
 }
 
 html {
     /* Control the overall behavior of the website */
-    scroll-behavior : smooth !important;
-    height          : 100%;
+    overscroll-behavior : none;
+    scroll-behavior     : smooth !important;
+    height              : 100%;
+    scroll-padding-top  : 4rem; 
 }
 
 
@@ -99,92 +134,25 @@ html {
   ------------------------------------------------------------------------------
 */
 
-page {
+page
+{
+    top            : 50px;   
+}
 
-    top: 50px;   
 
+body
+{
+    margin         : 0;
+    padding-bottom : 200px;
+    color          : black;
+    font           :  var(--main-text-font);   
 }
 
 p {
     /* Add this options so the top p above body is set to contain no space */
-    margin     : 0px;
-    text-align : left;
-}
-
-alert {
-
-    color: var(--alert-color) !important;
-    font-weight: bold;
-
-}
-
-li {
-    /*
-      Control how the lists behave, we also need to overwrite some settings in
-      regards to the paragraph settings.
-   */
-     padding : 0;
-
-    p {
-        line-height : 2 !important;
-        margin      : 10px !important;
-        text-align  : left !important;
-    }
-}
-
-
-
-
-/* Here we define the navigation menu help window */
-nav.keyboard {
-
-    position              : fixed;
-    display               : none;
-    color                 : black;
-    
-    text-align            : left;
-    z-index               : 10;
-    height                : calc(100vh - 52px);
-    max-height            : calc(100vh) !important;
-    
-    width                 : 336px;
-    overflow-y            : scroll;
-    line-height           : 1.5;
-    top                   : 52px;
-    overscroll-behavior-y : none;
-    box-sizing            : content-box; /* So the width will be 100% + 17px */
-    padding-bottom        : 10px;
-    right                 : 0px;
-
-    background          : linear-gradient(
-        to right,
-        color-mix(var(--header-color), white 5%) 0%,
-        color-mix(var(--header-color), white 2%) 50%,
-        color-mix(var(--header-color), black 5%) 100%);
-    
-    
-    
-    scrollbar-width: none;
-   
-    
-
-    b {
-        padding:10px;
-    }
-
-    .keyinformation {
-        padding-left: 20px;
-        padding-right: 20px;
-        padding-top: 5px;
-        padding-bottom: 5px;
-    }
-
-    span {
-        font: 800 15px/30px "Source Sans Pro", sans-serif;
-        white-space: pre;
-        font-weight: initial;
-        float: right;
-    }
+    margin         : 24px 0;
+    text-align     : left;
+    line-height    : var(--text-lineheight);
 }
 
 
@@ -194,34 +162,175 @@ pagefind-modal-trigger {
 }
 
 
-
 /* Here we define the on the page TOC  */
-.chapter-contents {
+.chapter-contents
+{
 
     position              : fixed;
     display               : none;
     
     text-align            : left;
-    z-index               : 10;
+    z-index               : 1;
     
     width                 : 336px;
     overflow-y            : scroll;
     line-height           : 1.5;
-    top                   : 52px;
-    bottom                : 30px;
+    top                   : 51px;
+    bottom                : 41px;
     overscroll-behavior-y : none;
     box-sizing            : content-box; /* So the width will be 100% + 17px */
     padding-bottom        : 10px;
     right                 : 0px;
 
-    background            : linear-gradient(
-        to right,
-        color-mix(var(--on-this-page-color), white 5%) 0%,
-        color-mix(var(--on-this-page-color), white 2%) 50%,
-        color-mix(var(--on-this-page-color), black 5%) 100%);
+    background            : snow;
     
-    border-left          : 1px solid color-mix(var(--output-code), black 20%);
+    border-left          : 1px solid black;
     scrollbar-width      : none;
+
+    .section-header
+    {
+        margin: unset;
+        margin-bottom: 10px;
+
+        h3
+        {
+            padding-bottom:  0px;
+            
+        }
+    }
+    
+    .chapterToc,
+    .appendixToc
+    {
+        margin-top: 40px;
+        font: bold 16px/24px "Source Sans Pro", sans-serif;
+        color: black ;
+        
+        border-bottom: 0.1px solid  rgba(255, 255, 255, .5);
+        display: flow-root;
+
+        
+        .number
+        {
+            font: bold 16px/24px "Source Sans Pro", sans-serif;
+            float: right;
+        }
+        
+        .title
+        {
+            white-space: initial;
+            float: inherit;
+            width: 200px;
+
+            a
+            {
+                color: white !important;
+            }
+        }
+    }
+
+    
+    .sectionToc
+    {
+        padding-bottom : 10px;
+        color          : black ;
+        display        : flow-root;
+        font           : var(--toc-s-----font);
+        line-height    : var(--text-lineheight) !important;
+
+        margin-top     : 30px;
+        
+        .number
+        {
+            float         : right;
+        }
+        
+        .title {
+            white-space   : normal;
+            float         : inherit;
+            padding-right : 5px;
+            
+            a{
+                color: black !important;
+            }
+        }
+    }
+
+    .generic-info-header,
+    .generic-command-header,
+    .subsectionToc
+    {
+        padding-top    : 0px;
+        padding-left   : 20px;
+        padding-right  : 0px;;
+        padding-bottom : 0px;
+        
+        font           : var(--toc-ss----font);
+        
+        line-height    : var(--text-lineheight) !important;
+        display        : flow-root;
+
+        .number {
+            float: right;
+            color: black;
+        } 
+        
+        .title {
+            white-space: normal;
+            float: inherit;
+            padding-right: 10px;
+            a{
+                color: black;
+            }
+        }
+
+        
+        
+    }
+
+     .subsubsectionToc
+    {
+        padding-top    : 0px;
+        padding-left   : 40px;
+        padding-right  : 0px;;
+        padding-bottom : 0px;
+        
+        font           : var(--toc-ss----font);
+        
+        line-height    : var(--text-lineheight) !important;
+        display        : flow-root;
+
+        .number {
+            float: right;
+            color: black;
+        } 
+        
+        .title {
+            white-space: normal;
+            float: inherit;
+            padding-right: 10px;
+            a{
+                color: black;
+            }
+        }
+
+        
+        
+    }
+
+    
+
+    .addchapToc { 
+        padding: 12px 0 0 36px;
+        font:
+            normal 16px/24px "Source Sans Pro",
+            sans-serif;
+        color: #7aa0b8;
+        list-style-type: none;
+        line-height: 30px;
+        font-weight: bold;
+    }
+    
 
     .content {
         columns: 1;
@@ -241,7 +350,7 @@ pagefind-modal-trigger {
         border: none;
         background-color: gray;
     }
-  
+    
     .header {
         
         font: bold 20px/16px "Source Sans Pro", sans-serif;
@@ -281,27 +390,55 @@ pagefind-modal-trigger {
     }
 
 
-     .generic-header{
+    .generic-header{
         padding: 0px 0 0 20px;
         font: normal 12px/15px "Source Sans Pro", sans-serif;
         line-height: 15px;
         line-height: 20px;
         display: flow-root;
         
-     }
+    }
 
-     .toc-contents {
+    .toc-contents {
 
-         padding-top: 40px;
-     }
+        padding-top: 40px;
+    }
 
 }
 
 
+.acronym-block {
+    
+    margin-top    : 50px;
+    margin-bottom : 20px;
+
+    .acr-list {
+        display : block;
+
+    .acr-bottom {       
+
+        .acr-short {
+
+            text-decoration         : underline;
+            text-underline-position : under;
+            font-weight             : bold;
+        }
+
+        .acr-long {
+            
+            padding-left            : 10px;
+            
+        }
+        
+
+    }
+    }
+}
+
 .current-header {
 
     float: left;
-    height: 30px;
+    height: 40px;
     align-content: center;
     padding-left: 20px;
     font: var(--supp-text-font);
@@ -343,30 +480,36 @@ pre.verbatim {
     .core-line {
 
         position: fixed;
-        height: 30px;
+        height: 40px;
         right: 0px;
         width: calc(100vw);
-        top: 20px;
-        border: 1px solid black;
-        background: linear-gradient(
-            to right,
-            color-mix(var(--core-line-color), white 5%) 0%,
-            color-mix(var(--core-line-color), white 2%) 50%,
-            color-mix(var(--core-line-color), black 5%) 100%);
+        top: 10px;
+        border-bottom: var(--nav-thin-line);
+        background: var(--modeline-color);
+
+        .core-line-image
+        {
+            float: left;
+            padding-left: 20px;
+            height:  40px;
+
+            img
+            {
+                  height: 40px;
+            }
+        }
 
     }
 
     .supp-line {
-        border-top: 1px solid;
         right: 0px;
-        background: lightgray;
+        background: gray;
         width: calc(100vw);
-        height: 20px;
+        height: 10px;
         position: fixed;
         top: 0px;
         font: var(--mode-text-font);
-        color: black;
-        border-bottom: 1px solid black;
+        color: black;        
         margin-left: 20px;
 
         p{
@@ -406,7 +549,7 @@ pre.verbatim {
     z-index: 100;
     line-height: var(--text-lineheight);
 
-     iframe {
+    iframe {
         position: relative;
         height: 100%;
         width: 100%;
@@ -430,7 +573,7 @@ pre.verbatim {
     overflow: auto;
     line-height: var(--text-lineheight);
 
-   
+    
     .title {
         max-width: 100%;
     }
@@ -462,7 +605,7 @@ pre.verbatim {
         display: block;
     }
 
-        table {
+    table {
         width:           100%;
         border-collapse: collapse;
     }
@@ -477,7 +620,7 @@ pre.verbatim {
         border-bottom: 0.5px solid color-mix(var(--table-row-color), black 20%); 
     }
 
-   
+    
     /* Define the header of the table */
     thead tr {
         background:
@@ -493,7 +636,7 @@ pre.verbatim {
     }
 
     th {
-         border:     none;
+        border:     none;
     }
 
     tr:nth-child(odd) {
@@ -510,6 +653,65 @@ pre.verbatim {
     
 }
 
+
+.index-search
+{
+    position: fixed;
+    max-width: 1000px;    
+    height: calc(100vh - 200px);
+    background: var(--comment-color);
+    border: 2px solid black;
+    top: 70px;
+    right: 50px;
+    left: 20px;
+    bottom: 120px;
+    overflow-y: auto;
+    z-index: 99999;
+    padding: 20px;
+    box-shadow: var(--box-shadow-config);
+
+    .sidenote
+    {
+        position: initial;
+  float: right;
+  width: 200px;
+  margin: 15px;
+  border: 1px solid lightgray;
+  padding: 15px;
+  background: white;
+  box-shadow: var(--box-shadow-config);
+  clear: both;
+
+  img
+  {
+      width: 200px;
+  }
+  
+    }
+
+    .figure
+    {
+
+        figcaption
+        {
+            float: right ;
+        }
+        img
+        {
+            width: 300px;
+            float: left;
+        }
+
+        
+
+    }
+
+    .chapter-materials
+    {
+        display: grid;
+
+    }
+}
 
 .lecture-structure {
 
@@ -532,7 +734,7 @@ pre.verbatim {
     .content {
         padding-top   : 50px;
     }
-   
+    
     .title {
         max-width: 100%;
     }
@@ -584,7 +786,7 @@ pre.verbatim {
         border-collapse: collapse;
     }
 
-        
+    
     th, td {       
         padding:       8px;
         border-left:   0.5px solid color-mix(var(--table-row-color), black 20%);
@@ -595,7 +797,7 @@ pre.verbatim {
         border-bottom: 0.5px solid color-mix(var(--table-row-color), black 20%); 
     }
 
-   
+    
     /* Define the header of the table */
     thead tr {
         background:
@@ -611,7 +813,7 @@ pre.verbatim {
     }
 
     th {
-         border:     none;
+        border:     none;
     }
 
     tr:nth-child(odd) {
@@ -641,7 +843,7 @@ pre.verbatim {
 
 .button-group {
 
-  float: right;
+    float: right;
 }
 
 
@@ -685,35 +887,31 @@ button.toc {
 }
 
 
-body {
-        margin: 0;
-    padding-bottom: 200px;
-    color: black;
-    font:  var(--main-text-font);
-    
-}
 
 
 /* Global Font Settings  ---------------------------------------------------- */
 
+/* Control how the alignment of the blocks look */
+a.copiable-link
+{
+    position      : absolute;
+    padding-left  : 5px;
+    padding-right : 5px;
+    left          : -25px;
+    background    : #ffa602;
+    color         : white;
+    font          : caption;
+    margin-top    : 6px;
+}
+
+
+
+
 .verb {
     /* Control how a code snippet looks in text. (i.e, Use the man command) */
     
-    color            : black;
-    background-color : var(--verb-color);
-    
-    
-    border           : 1px solid color-mix(var(--verb-color), black 10%);
-    border-radius    : 1px;
-    
-    font             : normal 13px/20px "Source Code Pro",
-                      Menlo, Consolas, Monaco, monospace;
-
-    padding-top      : 2px;
-    padding-left     : 5px;
-    padding-bottom   : 2px;
-    padding-right    : 5px;
-
+    color: var(--code-color);
+    font             : var(--code-text-font);
     word-break       : break-all;
 }
 
@@ -725,10 +923,10 @@ kbd {
     background-color : #eee;
     border           : 1px solid #b4b4b4;
     border-radius    : 3px;
-     
+    
     display          : inline-block;
     font-size        : 0.85em;
-    font-weight      : 700;
+    font-weight      : normal;
     line-height      : 1;
     padding          : 2px 4px;
     white-space      : nowrap;
@@ -788,6 +986,9 @@ figcaption.caption {
    looks much better */
 ul {
 
+    list-style-type: "■ ";
+    line-height: 2;
+    
     p {
         padding: 5px;
     }
@@ -797,10 +998,6 @@ ul {
 ::marker {
     color: var(--chosen-science);
     font-size: 1.2em;
-}
-
-ul {
-    list-style-type: "■ ";
 }
 
 
@@ -864,12 +1061,26 @@ img {
     border-radius: .25rem;
 }
 
-/* Define how equations `equation' and `equation*' looks */
-table.equation {
-    display: table;
+mjx-container {
     overflow-x: auto;
+  overflow-y: clip;
+}
+
+table {
+    overflow-x: auto;
+    margin-bottom: 15px;
+}
+
+/* Define how equations `equation' and `equation*' looks */
+table.equation-star,
+table.equation {
+    display: grid;
     width: auto;
     margin: auto;
+
+    tbody {
+        overflow-x: auto;
+    }
 
     td {
         width: 100%;
@@ -882,56 +1093,60 @@ table.equation {
     }
 }
 
-table.equation-star {
-    margin: auto;
-   
-    overflow-x: auto;
+/*
+   Here we have to reverse the `display: grid' as equation* does not have a
+   number
+*/
+table.equation-star
+{
+    display: revert;
 }
-
 
 
 /* Table Settings ----------------------------------------------------------- */
 
 .tabular{
+
+    overflow-x: auto;
     
     table {
         width:           100%;
         border-collapse: collapse;
+        border: 1px solid black;
     }
     
     th, td {       
         padding:       8px;
-        border-left:   0.5px solid color-mix(var(--table-row-color), black 20%);
-        border-right:  0.5px solid color-mix(var(--table-row-color), black 20%);
+        border-left:   var(--tblr-inner-brdr);
+        border-right:  var(--tblr-inner-brdr);
     }
 
     tr {
-        border-bottom: 0.5px solid color-mix(var(--table-row-color), black 20%); 
+        border-bottom: var(--tblr-inner-brdr);
     }
 
-   
-    /* Define the header of the table */
-    tr:first-child {
-        background:
-            linear-gradient(
-                to bottom,
-                color-mix(var(--chosen-science), white 5%) 0%,
-                color-mix(var(--chosen-science), white 2%) 50%,
-                color-mix(var(--chosen-science), black 5%)  100%
-            );
-        color:       white;
-        font-weight: bold;
-        border:      none;
-    }
-
-    th {
-         border:     none;
+    /* We unset this one as it is adding a line to the bottom row which is already set as black */
+    tr:last-child {
+        border-bottom: unset; 
     }
 
     tr:nth-child(odd) {
         /* Add alternating row color to make it more visible */
         background-color: var(--table-row-color);
     }
+    
+    /* Define the header of the table */
+    tr:first-child {
+        background: var(--chosen-science);
+        color:       white;
+        font-weight: bold;
+        border:      none;
+    }
+
+    th {
+        border:     none;
+    }
+
     
     tr:not(:first-child):hover {
         /* Finally add some hover effect to the rows */
@@ -941,7 +1156,8 @@ table.equation-star {
 
 }
 
-.tblr {
+.tblr
+{
     /*
       Here we we edit the `tabulararry' style tables, and here we need to use
       some code we've used for tabular class. Some adjustments were needed to
@@ -950,33 +1166,33 @@ table.equation-star {
    */
     width:           100%;
     border-collapse: collapse;
+
+    tbody
+    {
+        tr
+        {
+            font-weight: bold;
+        }
+    }
     
     th, td {
         font:          var(--tblr-text-font);
         line-height:   var(--tblr-lineheight);
         padding:       8px;
-        border-left:   0.5px solid color-mix(var(--table-row-color), black 20%);
-        border-right:  0.5px solid color-mix(var(--table-row-color), black 20%);
+        border-left:   0.5px solid gray;
+        border-right:  0.5px solid gray;
     }
 
     tr {
-        border-bottom: 0.5px solid color-mix(var(--table-row-color), black 20%); 
+        border-bottom: 0.5px solid gray; 
     }
 
     tr:first-child {
         /* Define the header of the table. This command needs to be rerun again
            to be correctly run */
-        background:
-            linear-gradient(to bottom,
-                            color-mix(var(--chosen-science), white 5%) 0%,
-                            color-mix(var(--chosen-science), white 2%) 50%,
-                            color-mix(var(--chosen-science), black 5%)  100%);
+        background: var(--chosen-science) !important;
         td {
-            background-color:
-                linear-gradient(to bottom,
-                                color-mix(var(--chosen-science), white 5%) 0%,
-                                color-mix(var(--chosen-science), white 2%) 50%,
-                                color-mix(var(--chosen-science), black 5%)  100%) !important;
+            background-color: var(--chosen-science) !important;
         }
 
         td:nth-child(1) {  
@@ -1006,7 +1222,7 @@ table.equation-star {
         text-align: right !important;
     }
 
-     td:last-child {
+    td:last-child {
         text-align: left !important;
     }
 }
@@ -1026,35 +1242,29 @@ table.equation-star {
 /* Navigation Settings ------------------------------------------------------ */
 
 nav.wide {
-    
-    background      : 
-        linear-gradient(
-            to right,
-            color-mix(var(--chosen-science), white 5%) 0%,
-            color-mix(var(--chosen-science), white 2%) 50%,
-            color-mix(var(--chosen-science), black 5%)  100%
-        );
+
+    background      : var(--chosen-science);
 
     font            : 800 15px/30px "Source Sans Pro", sans-serif;
     color           : white;
     overflow        : auto;
+    overflow-x      : hidden    ;
     white-space     : pre;
     scrollbar-width : thin;
     position        : fixed;
     width           : 336px;
     top             : 50px;
 
-    z-index         : 10;
+    z-index         : 150;
     height          : calc(100vh - 50px);
-    border-right    : 0.1px solid black;
+    border-right    : var(--nav-thin-line);
     max-height      : calc(100vh) !important;
     
-    scrollbar-color: color-mix(var(--chosen-science), black 20%)
-                     var(--chosen-science);
+    scrollbar-color:  darkgray var(--chosen-science);
 
     
     hr {
-        color: color-mix(white, var(--chosen-science) 60%);
+        color: white;
     }
 
     
@@ -1070,7 +1280,7 @@ nav.wide {
         padding-bottom: 20px;
 
         a {
-            color: color-mix(var(--chosen-science), white 50%)
+            color: white;
         }
     }
 
@@ -1099,74 +1309,86 @@ nav.wide {
     }
 
 
-  
+    
+    
+    .toc
+    {    
+        columns     : 1;
+        position    : relative;
+        width       : 240px;
+        padding     : 0px;
+        white-space : pre;
 
-    .toc {    
-        columns: 1;
-        position: relative;
-        width: 240px;
-        padding: 0px 0 0px 0;
-        white-space: pre;
-
-        margin: 18px 36px;
-        text-wrap: stable;
-
-        .sectionToc {
-        margin-top: 30px;
-    }
-        
-        .chapterToc, .appendixToc {
+        margin      : 18px 36px;
+        text-wrap   : stable;
+     
+        .chapterToc,
+        .appendixToc
+        {
             margin-top: 40px;
             font: bold 16px/24px "Source Sans Pro", sans-serif;
             color: white ;
             
-            border-bottom: 1px solid color-mix(var(--chosen-science), white 15%);
+            border-bottom: 0.1px solid  rgba(255, 255, 255, .5);
             display: flow-root;
 
             
-            .number {
+            .number
+            {
                 font: bold 16px/24px "Source Sans Pro", sans-serif;
                 float: right;
             }
             
-            .title {
+            .title
+            {
                 white-space: initial;
                 float: inherit;
                 width: 200px;
 
-                a{
-                    color: white ;
+                a
+                {
+                    color: white !important;
                 }
             }
         }
         
+        .sectionToc
+        {
+            padding-bottom : 10px;
+            color          : white ;
+            display        : flow-root;
+            font           : var(--toc-s-----font);
+            line-height    : var(--text-lineheight) !important;
 
-        .sectionToc {
-            padding-bottom: 10px;
-
-            font: normal 16px/24px "Source Sans Pro", sans-serif;
-            color: white ;
-            display: flow-root;
-            .number {
-                float: right;
-            } 
+            margin-top     : 30px;
+            
+            .number
+            {
+                float         : right;
+            }
+            
             .title {
-                white-space: normal;
-                float: inherit;
-                padding-right: 10px;
+                white-space   : normal;
+                float         : inherit;
+                padding-right : 5px;
+                
                 a{
-                    color: white ;
+                    color: white !important;
                 }
             }
         }
 
-        .subsectionToc {
-            padding: 0px 0 0 20px;
-            font: normal 12px/15px "Source Sans Pro", sans-serif;
-            color: white;
+        .subsectionToc
+        {
+            padding-top    : 0px;
+            padding-left   : 20px;
+            padding-right  : 0px;;
+            padding-bottom : 0px;
             
-            line-height: 20px;
-            display: flow-root;
+            font           : var(--toc-ss----font);
+            
+            line-height    : var(--text-lineheight) !important;
+            display        : flow-root;
 
             .number {
                 float: right;
@@ -1201,27 +1423,50 @@ nav.wide {
 /* Navigation Settings ------------------------------------------------------ */
 
 .crosslinks-top {
-    font            : var(--main-text-font);
-    font-weight     : normal;
-    color           : black;
-    overflow        : auto;
-    white-space     : pre;
-    display         : flex;
-    justify-content : space-between;
-    padding-top     : 0px;
-    padding-bottom  : 10px;
-   
-    border-bottom   : solid 1px #DCDCDC;
+    display: grid;
+    font-size: normal;
 
-    .nav-inactive {
-        color       : color-mix(var(--header-color), black 5%);
+    .nav-button-inactive,
+    .nav-button
+    {
+        color: var(--chosen-science);
+        padding: 10px;
+        margin-top: 10px;
+
+        .nav-link
+        {
+            padding-left: 10px;
+        }
+
+        a
+        {
+            color: var(--chosen-science);
+        }
     }
- 
-    p {
-        margin      : 0px;
+
+    .nav-button-inactive
+    {
+        i
+        {
+            color: lightgray !important;
+        }
+    }
+
+    i{
+        font-size: large;
+        color: var(--chosen-science);
         
-        font        :        var(--box--text-font);
-        font-weight : normal;
+    }
+
+    span:nth-last-child(2) {
+        position: absolute;
+        left: -20px;
+    }
+
+    .nav-button:nth-last-child(1) {
+        position: absolute;
+        left: -20px;
+        top: 122px;
     }
 }
 
@@ -1231,25 +1476,26 @@ nav.wide {
     color           : black;
     position        : fixed;
     bottom          : 0px;
-    background      : linear-gradient(
-        to right,
-        color-mix(var(--core-line-color), white 5%) 0%,
-        color-mix(var(--core-line-color), white 2%) 50%,
-        color-mix(var(--core-line-color), black 5%) 100%);
+    background      : var(--modeline-color);
     right           : 0px;
-    height          : 30px;
-    width           : calc(100% - 336px);
-    border-top      : black;
+    height          : 40px;
+    width           : 100%;
+    border-top      : var(--nav-thin-line);
+    border-left     : unset;
+    box-shadow      : 0 2px 10px 2px rgba(0,0,0,.2);
+    
     
     display         : flex; 
     justify-content : center; 
     align-items     : center;
-
-    z-index         : 1000;
+    z-index         : 100;
 
     .display-state {
-        
+
+
+        /* This is kept as a debug menu */
         position    : absolute;
+        display     : none;
         right       : 20px;
         color       : gray;
         font        : var(--mode-text-font);
@@ -1267,7 +1513,7 @@ nav.wide {
     
     .nav-inactive {
         
-        color       : color-mix(white, black 40%);
+        color       : black;
         margin      : 30px;
         font-weight : bold;
         
@@ -1297,13 +1543,21 @@ nav.wide {
     }
 
 
-   
+    
 }
 
-   
+.footnotes {
+    position: relative;
+    width: 700px;
+    margin: 0 auto 0 384px;
+    padding-top: 90px;
+    line-height: var(--text-lineheight);
+}
+
+
 .header {
     
-   
+    
     width: 100%;
     padding-top: 30px;
     padding-bottom: 30px;
@@ -1311,7 +1565,7 @@ nav.wide {
     /* box-shadow: 10px 0 10px -2px #888; */
 
     .header-left {
-        white-space: pre;
+        text-wrap: auto;
         float: left;
         margin: 18px 36px;
 
@@ -1335,7 +1589,7 @@ nav.wide {
             font-style: unset;
         }
 
-         .header-version {
+        .header-version {
             color: color-mix(var(--chosen-science), white 50%);
             font-style: unset;
         }
@@ -1390,8 +1644,7 @@ nav.wide {
     code {
         background: var(--docs-block);
         border: 0px;
-        font: normal 13px/20px "Source Code Pro",
-              Menlo, Consolas, Monaco, monospace;
+        font: var(--code-text-font);
     }
 
     /* Finally control the paragraph space as to not
@@ -1404,284 +1657,389 @@ nav.wide {
     }    
 }
 
-.knowledge {
-    padding         : 0.1px;
-    padding-right   : 1ex;
-    padding-left    : 2ex;
+.knowledge
+{
+    border             : 1px solid var(--knowledge-block);
+    background     : var(--knowledge-body);
+    font               : var(--box--text-font);
+    color              : var(--block-text-color);
     
-    margin          : 20px -12px 20px;
-    
-    font            : var(--box--text-font);
-    color           : var(--block-text-color);
-    
-    border-left     : 6px solid var(--knowledge-block) !important;
-    background      : color-mix(var(--knowledge-block), white 70%);
-   
-    p {
-        margin      : 8px 0;
-        
-        font        : var(--box--text-font);
-        line-height : var(--text-lineheight);
+    margin-bottom      : 10px;
+    margin-top         : 10px;
+
+    .knowledge-upper
+    {
+        display        :none;   
+        background     : var(--knowledge-block);
+        padding-left   : 10px;
+        padding-top    : 5px;
+        padding-bottom : 5px;
+        line-height    : var(--text-lineheight);
+        font-weight    : bold;
+        color          : white;
     }
 
-    alert {
-        font-weight : bold;
-        color       : color-mix(var(--knwledge-block), black 30%) !important;
+    .body
+    {
+        background     : var(--knowledge-body);
+        padding-top    : 5px;
+        padding-left   : 15px;
+        padding-right  : 15px;
+        margin         : 0px !important;
     }
 
+    p
+    {
+        margin         : 8px 0;
+        font           : var(--box--text-font);      
+        line-height    : var(--text-lineheight);
+    }
+
+    alert
+    {
+        font-weight    : bold;
+    }
+
+    
 }
 
 .warning {
-    padding         : 0.1px;
-    padding-right   : 1ex;
-    padding-left    : 2ex;
-    
-    margin          : 20px -12px 20px;
-    
-    font            : var(--box--text-font);
-    color           : var(--block-text-color);
-    
-    border-left     : 6px solid var(--alert-block) !important;
-    background      : color-mix(var(--alert-block), white 70%);
 
-    p {
-        margin      : 8px 0;
-        font        : var(--box--text-font);
-        
-        line-height : var(--text-lineheight);
+    border             : 1px solid var(--alert-block);
+    background     : var(--alert-body);
+    font               : var(--box--text-font);
+    color              : var(--block-text-color);
+    
+    margin-bottom      : 10px;
+    margin-top         : 10px;
+    
+    .warning-upper
+    {
+        display        :none;
+        background     : var(--alert-block);
+        padding-left   : 10px;
+        padding-top    : 5px;
+        padding-bottom : 5px;
+        line-height    : var(--text-lineheight);
+        font-weight    : bold;
     }
 
-    alert {
-        font-weight : bold;
-        color       : color-mix(var(--alert-block), black 30%) !important;
+    .body
+    {
+        background     : var(--alert-body);
+        padding-top    : 5px;
+        padding-left   : 15px;
+        padding-right  : 15px;
+        margin         : 0px !important;
+    }
+
+    p
+    {
+        margin         : 8px 0;
+        font           : var(--box--text-font);      
+        line-height    : var(--text-lineheight);
+    }
+
+    alert
+    {
+        font-weight    : bold;
     }
 }
 
 
 .exer-block {
-    padding:       20px;
-    margin:        20px -12px 0px;
-    font:          var(--box--text-font);
-    background:    color-mix(var(--exer-block), white 90%);
-    border-left:   6px solid  var(--exer-block) !important;
-   
+
+    display       : grid;
+    border        : 1px solid var(--exer-block);
+    margin-top    : 10px;
+    margin-bottom : 10px;
+    box-shadow    : var(--box-shadow-config);
+
+    hr
+    {
+        border         : 0.1px solid var(--exer-block);
+        margin-top: 10px;
+    }
+    
     .exer-upper {
-        padding-right: 30px;
-        padding-bottom: 5px;
-        margin-left: 10px;
-        border-bottom: 0.5px solid color-mix(var(--exer-block), white 70%);
+          
+        background     : var(--exer-block);
+        padding-left   : 10px;
+        padding-top    : 5px;
+        padding-bottom : 5px;
+        line-height    : var(--text-lineheight);
+        
+        .exer-title,
+        .exer-header
+        {           
+            color      :  white;          
+        }
+        
     }
 
-    hr {
-        border: 1px dashed var(--exer-block);
-    }
-
+   
     .body {
-        padding-left: 10px;
-        padding-right: 10px;
-        display: none;
-        transition: all 0.5s ease;
-        will-change: transform;
+
+        background     : var(--exer-body);
+        padding-top    : 5px;
+        padding-left   : 15px;
+        padding-right  : 15px;
+        margin         : 0px !important;
     }
 
     p {
-        margin: 8px 0;
-        font: var(--box--text-font);
-        
-        line-height: var(--text-lineheight);
+         margin         : 8px 0;
+        font           : var(--box--text-font); 
+        line-height    : var(--text-lineheight);
     }
 
-    button {
-        background: color-mix(var(--exer-block), white 80%);
-        color: var(--exer-block);
-        float: right;
-        padding-left: 5px;
-        padding-right: 5px;
-        padding-bottom: 2px;
-        margin-right: 10px;
-        border:  0.5px solid  var(--exer-block) !important;
-        border-radius: var(--button-radius) !important;
-        
-    }
 }
 
 
-.info-block {
-    padding-top:    10px;
-    padding-bottom: 10px;
-    padding-right:  10px;
-    padding-left:   10px;
-    margin:         20px -12px 0px;
-    
-    background:     color-mix(var(--info-block), white 70%);
-    border-left:    6px solid  var(--info-block) !important;
 
+.info-block
+{
+
+    display       : grid;
+    border        : 1px solid var(--info-block);
+    margin-top    : 10px;
+    margin-bottom : 10px;
+    box-shadow    : var(--box-shadow-config);
     
-    hr {
-        border: 1px dashed var(--info-block);
+    hr
+    {
+
+       border         : 1px dashed var(--info-block);
     }
 
-    .info-upper {
-        padding-right:  30px;
-        padding-bottom: 5px;
-        margin-left:    10px;
-        border-bottom:  1px solid var(--info-block);
-        line-height:    2.5;
 
-        .info-header {           
-            color:  color-mix(var(--info-block), black 50%);
-            
+    .info-upper
+    {
+        
+        background     : var(--info-block);
+        padding-left   : 10px;
+        padding-top    : 8px;
+        padding-bottom : 8px;
+        line-height    : var(--text-lineheight);
+        font           : var(--box--text-font);
+
+        code
+        {
+            color : white !important;
+        }
+        
+        .info-title,
+        .info-header
+        {           
+            color      :  white;          
+        }
+    }
+
+    .body
+    {
+        background     : var(--info-body);
+        padding-top    : 5px;
+        padding-left   : 15px;
+        padding-right  : 15px;
+        margin         : 0px !important;
+
+        .quote
+        {
+            margin       : 20px;
+            padding-left : 10px;
+            color        : black;
+        }
+    }
+
+    
+    p
+    {
+        margin         : 8px 0;
+        font           : var(--box--text-font); 
+        line-height    : var(--text-lineheight);
+    }
+
+    
+    
+}
+
+.desc-block
+{
+   
+    display            : grid;
+    border             : 1px solid var(--desc-block);
+    margin-top:        10px;
+    margin-bottom:        10px;
+        box-shadow    : var(--box-shadow-config);
+    
+    hr {
+        border         : 1px dashed var(--desc-block);
+    }
+
+    .desc-upper
+    {
+        
+        background     : var(--desc-block);
+        padding-left   : 10px;
+        padding-top    : 5px;
+        padding-bottom : 5px;
+        line-height    : var(--text-lineheight);
+        
+        .desc-title,
+        .desc-header
+        {           
+            color      :  white;          
         }
     }
 
     .body {
-        padding-left: 10px;
-        padding-right: 10px;
-        font: var(--box--text-font);
+        background     : var(--desc-body);
+        padding-top    : 5px;
+        padding-left   : 15px;
+        padding-right  : 15px;
+        margin         : 0px !important;
     }
 
-   
-    p {
-        margin: 8px 0;
-        font: var(--box--text-font);
-        
-        line-height: var(--text-lineheight);
+    
+    p
+    {
+        margin         : 8px 0;
+        font           : var(--box--text-font); 
+        line-height    : var(--text-lineheight);
     }
 
     .code {
-        background: none;
+        background     : none;
     }
 
-     alert {
-        font-weight : bold;
-        color       : color-mix(var(--info-block), black 30%) !important;
+    alert {
+        font-weight    : bold;
+        color          : color-mix(var(--info-block), black 30%) !important;
     }
-}
-
-.desc-block {
-    padding-top: 20px;
-    padding-bottom: 5px;
-    padding-right: 10px;
-    padding-left: 10px;
-    margin: 20px -12px 0px;
-    font:          var(--box--text-font);
-    background: color-mix(var(--desc-block), white 90%);
-    border-left: 6px solid  var(--desc-block) !important;
-       
-    
-    hr {
-        border: 1px dashed var(--desc-block);
-    }
-    
-    .desc-upper {
-        padding-right: 30px;
-        padding-bottom: 5px;
-        margin-left: 10px;
-        border-bottom: 1px solid var(--desc-block);
-    }
-
-    .body {
-        padding-left: 10px;
-        padding-right: 10px;
-    }   
 }
 
 .theo-block {
-     padding-top: 20px;
-    padding-bottom: 5px;
-    padding-right: 0.1px;
-    padding-left: 0.1px;
-    margin: 20px -12px 20px;
-    font: normal 16px/24px "Source Sans Pro", sans-serif;
-    background: color-mix(var(--theo-block), white 90%);;
-    padding-right: 1ex;
-    padding-left: 2ex;
-    border-left: 6px solid var(--theo-block) !important;
-    font:          var(--box--text-font);
 
     
+    display            : grid;
+    border             : 1px solid var(--theo-block);
+    box-shadow    : var(--box-shadow-config);
+    
     hr {
-        border: 1px dashed var(--theo-block);
+        border         : 1px dashed var(--theo-block);
     }
 
-    .theo-upper {
-        padding-right: 30px;
-        padding-bottom: 5px;
-        margin-left: 10px;
-        border-bottom: 1px solid var(--theo-block);
+    .theo-upper
+    {
+        
+        background     : var(--theo-block);
+        padding-left   : 10px;
+        padding-top    : 5px;
+        padding-bottom : 5px;
+        line-height    : var(--text-lineheight);
+        
+        .theo-title,
+        .theo-header
+        {           
+            color      :  white;          
+        }
     }
 
-    .body {
-        padding-left: 10px;
-        padding-right: 10px;
-    }   
+    .body
+    {
+        background     : var(--theo-body);
+        padding-top    : 5px;
+        padding-left   : 15px;
+        padding-right  : 15px;
+        margin         : 0px !important;
+    }
+
+    
+    p
+    {
+        margin         : 8px 0;
+        font           : var(--box--text-font); 
+        line-height    : var(--text-lineheight);
+    }
+
+    .code
+    {
+        background     : none;
+    }
+
+    alert
+    {
+        font-weight    : bold;
+    }
+    
 }
 
 /* Define the way `quotes' supposed to look */
-.quote {
-    margin: 20px;
-    padding-left: 10px;
-    font: var(--quot-text-font);
-    border-left: 2px solid var(--chosen-science); 
-    color: color-mix(black, white 50%);
+.quote
+{
+    margin       : 20px;
+    padding-left : 10px;
+    
+    color        : var(--quote-color);
+    
+    line-height  : var(--text-lineheight) !important;
+    font         : var(--quot-text-font);
+
+    .quote
+    {
+        border-left: unset;
+    }
+        
 }
 
 /* Control the code environment display */
-
-pre {
-
-    border           : 1px solid color-mix(var(--verb-color), black 10%);
-    code {
-        
-        font:        normal 13px/20px "Source Code Pro",
-                     Menlo, Consolas, Monaco, monospace;
-        
-        padding-left: 15px;
-        padding-right: 15px;
-        padding-bottom: 15px;
-        overflow-x:  auto;
-       
-
-        
-
-        
+pre
+{    
+    border             : 1px solid lightgray;
+    
+    code
+    {        
+        font           : var(--code-text-font);        
+        padding-left   : 15px;
+        padding-right  : 15px;
+        padding-bottom : 15px;        
+        overflow-x     :  auto;
     }
 
-
-    .hljs {
-
-        margin-top: -18px;
+    .hljs
+    {
+        margin-top     : -1em;
     }
 
-    .language-text {
-        background: color-mix(var(--docs-block), black 2%);
-    }
+    .language-text
+    {
+        background     : var(--verb-color);
+    } 
 }
 
 /* Header & Footer Settings ------------------------------------------------- */
 
-
-.chapterHead {
-    text-align: left;
-    position: relative;
+.chapterHead
+{
+    text-align     : left;
+    position       : relative;
     
-    padding-top: 100px;
-    padding-bottom: 10px;
-    border-bottom:  0.2px solid #DCDCDC;
+    padding-top    : 100px;
+    padding-bottom : 10px;
+    border-bottom  : 0.2px solid #DCDCDC;
     
-    font: bold 48px/48px "Source Sans Pro",
-          sans-serif;
-    color: color-mix(color-mix(var(--header-color), brown 40%), black 50%);
+    font           : bold 48px/48px "Source Sans Pro", sans-serif;
+    color          : var(--chosen-science);
 
-    line-height: 1.4;
+    line-height    : 1.4;
 }
 
 
 /* Title Settings ----------------------------------------------------------- */
 
 .chapter-header {
-    font: italic 16px/30px "Source Sans Pro", sans-serif;
-    float: right;
+    font  : var(--chap-head-font);
+    float : right;
 }
 
 .section-header {
@@ -1689,6 +2047,7 @@ pre {
     border-bottom: 1px solid var(--header-color);
     margin: 71px 0 0 0;
     padding-bottom: 1px;
+    
     
 
     /* Configure the PDF icon */
@@ -1703,12 +2062,14 @@ pre {
         float: right;
         font: bold 24px/24px "Source Sans Pro", sans-serif;
         color: var(--chosen-science);
+        line-height:     var(--title-lineheight);
     }
     
     .title  {
         float: left;
         font: bold 24px/24px "Source Sans Pro", sans-serif;
         color: var(--chosen-science);
+        line-height:     var(--title-lineheight);
         line-height:     var(--title-lineheight);
     }
 
@@ -1731,7 +2092,8 @@ pre {
         float: right;
         font: bold 20px/24px "Source Sans Pro", sans-serif;
         color: var(--chosen-science);
-         text-align: right;
+        text-align: right;
+        line-height:     var(--title-lineheight);
     }
     
     .title  {
@@ -1739,7 +2101,7 @@ pre {
         font: bold 20px/24px "Source Sans Pro", sans-serif;
         color: var(--chosen-science);
         text-align: left;
-              line-height:     var(--title-lineheight);
+        line-height:     var(--title-lineheight);
     }
 }
 
@@ -1759,6 +2121,13 @@ pre {
             display: none;
         }
     }
+
+    .crosslinks-bottom
+    {
+        width: 100%;
+    }
+
+   
     
 }
 
@@ -1798,7 +2167,7 @@ pre {
     margin-top    : 40px;
     outline-width : 2;
     line-height   : var(--text-lineheight);
-    border        : 2px solid color-mix(var(--table-row-color), black 10%);
+    border        : 2px solid lightgray;
     background    : var(--table-row-color);
     padding       : 20px;
 
@@ -1820,37 +2189,54 @@ pre {
 }
 
 
+.crosslinks-top {
+
+        .nav-info {
+            padding-left: 10px;
+        }
+
+    }
 
 
 @media only screen and (min-width: 1200px) {
 
+    
+    .crosslinks-top {
+
+        .nav-info {
+            display: none;
+        }
+
+    }
+
+     
     article {
-    position: relative;
-    width: 700px;
-    margin: 0 auto 0 384px;
-}
+        position: relative;
+        width: 700px;
+        margin: 0 auto 0 384px;
+    }
 
     
     .section-header {
         a {
-            left: -20px;       
+            left: -25px;       
         }
     }
 
-     .subsection-header {
+    .subsection-header {
         a {
-            left: -20px;       
+            left: -25px;       
         }
     }
 
 
     /* Glossary Settings */
 
-     .acronym {
+    .acronym {
 
-         a {
-             color: green !important;
-         }
+        a {
+            color: green !important;
+        }
 
         .acronym-short {
             color: black;
@@ -1885,8 +2271,8 @@ pre {
             width: 250px;
             font: normal 12px/20px "Source Sans Pro", sans-serif;
             display: none;
-            background: color-mix(var(--header-color), white 50%);
-            border: 1px solid color-mix(var(--header-color), black 20%);
+            background: var(--comment-color);
+            border: 1px solid black;
             font: normal 12px/20px "Source Sans Pro", sans-serif;
             padding: 10px;
             z-index: 999;
@@ -1975,13 +2361,12 @@ pre {
         
     }
 
-      .header-lecture-grade {
-                font: bold 20px/16px "Source Sans Pro", sans-serif;
-            }
-            .header-lecture-name {
-                font: bold 20px/16px "Source Sans Pro", sans-serif;
-            }
-    
+    .header-lecture-name,
+    .header-lecture-grade
+    {
+        font: var(--toc-title-font);
+        text-wrap: auto;
+    }    
     
     .header {
         
@@ -2003,7 +2388,7 @@ pre {
         .header-left {
             white-space: pre;
             float: left;
-           margin: 18px 36px;
+            margin: 18px 36px;
         }
         
         .header-lecture-lecture {
@@ -2058,8 +2443,8 @@ a:hover {
 
 
 .mathjax-env {
-  overflow-x: auto;
-  display: block;
+    overflow-x: auto;
+    display: block;
 }
 
 
@@ -2081,16 +2466,13 @@ a:hover {
 
 
 pre {
-    font:
-        normal 13px/20px "Source Code Pro",
-        Menlo,
-        Consolas,
-        Monaco,
-        monospace;
+    font: var(--code-text-font);
     margin: 0;
     padding: 0;
+    
     white-space: pre-wrap;
     overflow-wrap: anywhere;
+    margin-bottom: 10px;
 }
 
 
@@ -2115,10 +2497,6 @@ article h1.part {
     letter-spacing: 1px;
 }
 
-article p {
-    margin: 24px 0;
-    line-height: var(--text-lineheight);
-}
 
 article ol,
 article ul {
@@ -2137,35 +2515,56 @@ article img.wide {
 
 
 
+/* LIST AND DESCRIPTION SETTINGS -------------------------------------------- */
 
+li
+{
+    /*
+      Control how the lists behave, we also need to overwrite some settings in
+      regards to the paragraph settings.
+   */
+    padding         : 0;
 
-
-
-dl {
-    display: grid;
-    grid-template-columns: max-content auto;
-    line-height: var(--text-lineheight);
-
-    dt {
-        color : var(--chosen-science);
-    }
-
-    dd {
-
-        margin: 0;
+    p {
+        line-height : 2 !important;
+        margin      : 10px !important;
+        text-align  : left !important;
     }
 }
 
 
-
-
-dt {
-    font-weight: bold;
-    padding: 0 10px 0 0;
-    /* grid-column-start: 1; */
+li                  ::marker
+{
+    font-weight     : bold;
+    font-size       : 1em;
 }
 
+dl
+{
+    display                     : grid;
+    grid-template-columns       : max-content auto;
+    line-height                 : var(--text-lineheight);
 
+    dt
+    {
+        font-weight             : bold;
+        padding                 : 0 10px 0 0;
+        color                   : var(--chosen-science);
+    }
+
+    dt.description
+    {    
+        text-decoration         : underline;
+        text-underline-position : under;
+    }
+
+    dd
+    {
+        margin                  : 0px;
+    }
+}
+
+/* -------------------------------------------------------------------------- */
 
 .keyboard-help-menu {
     visibility: hidden;
@@ -2207,12 +2606,12 @@ dt {
 
 .margin {
     .ellipsis {
-            color           : var(--link-color);
-            text-decoration : none;
-            transition      : color 0.2s ease, border-color 0.4s ease;
-            font-size       : x-small;
-            vertical-align  : super;
-            font-weight     : bold;
+        color           : var(--link-color);
+        text-decoration : none;
+        transition      : color 0.2s ease, border-color 0.4s ease;
+        font-size       : x-small;
+        vertical-align  : super;
+        font-weight     : bold;
     }
 }
 
@@ -2246,8 +2645,8 @@ dt {
         text-align : left;
         
         display    : none;
-        background : color-mix(var(--header-color), white 40%);
-        border     : 1px solid color-mix(var(--header-color), black 20%);
+        background : var(--comment-color);
+        border     : 1px solid black;
         z-index    : 999;
         box-shadow : var(--box-shadow-config);
 
@@ -2269,8 +2668,7 @@ dt {
     
     .ellipsis:hover~.sidenote  {
         color: black;
-        display: block;
-        
+        display: block;        
     }
 }
 
@@ -2303,23 +2701,24 @@ dt {
         
     }
     
-    .acronym-detail {
-        color: black !important;
+    .acronym-detail {                
         position   : fixed;
         left       : calc(700px + 330px + 120px);
         top        : 70px;
         width      : calc(100vw - 700px - 336px);
         max-width  : 250px;
-        font: normal 12px/20px "Source Sans Pro", sans-serif;
-        display: none;
-        background: color-mix(var(--header-color), white 50%);
-        border     : 1px solid color-mix(var(--header-color), black 20%);
-        font: normal 12px/20px "Source Sans Pro", sans-serif;
-        padding: 10px;
-        z-index: 999;
-        box-shadow: var(--box-shadow-config);
+
+        display    : none;
         
+        color      : black !important;        
+        background : var(--comment-color);
+        border     : 1px solid black;
+        font       : var(--comm-text-font);
+        box-shadow : var(--box-shadow-config);
         
+        padding    : 15px;
+        
+        z-index    : 999;                        
     }
 
     .acronym-short:hover~.acronym-detail  {
@@ -2387,18 +2786,18 @@ dt {
     /* Control how the page is displayed on the current page */
     .chapter {
         top:50px;
-    padding-top: 70px;
-/*    text-justify: inter-word;*/
-    border-right: 1px solid #DCDCDC;
-    padding-right: 30px;
-    padding-left: 15px;
+        padding-top: 70px;
+        /*    text-justify: inter-word;*/
+        border-right: 1px solid #DCDCDC;
+        padding-right: 30px;
+        padding-left: 15px;
 
-    h3, h4, h5 {
-        text-align: left;
-        line-height: var(--title-linewidth);
+        h3, h4, h5 {
+            text-align: left;
+            line-height: var(--title-linewidth);
+        }
+        
     }
-    
-}
 
     
 
@@ -2416,14 +2815,7 @@ dt {
         
     }
 
-    .header-lecture-grade {
-        font: bold 20px/16px "Source Sans Pro", sans-serif;
-    }
-    .header-lecture-name {
-        font: bold 20px/16px "Source Sans Pro", sans-serif;
-        text-wrap: auto;
-    }
-
+    
 
     .section-header {
         a {
@@ -2481,12 +2873,51 @@ dt {
     }
 
     
+    .info-block
+    {
+        display: block;
+        background: var(--info-body);
+
+        .info-upper
+        {
+            display: block;
+        }
+        
+    }
+
+     .theo-block
+    {
+        display: block;
+        background: var(--theo-body);
+
+        .theo-upper
+        {
+            display: block;
+        }
+        
+    }
+
+      .desc-block
+    {
+        display: block;
+        background: var(--desc-body);
+
+        .desc-upper
+        {
+            display: block;
+        }
+        
+    }
+
+    
+
+    
     .sidenote {
         position   : initial;
         float      : right;
         width      : 200px;
         margin     : 15px;
-        border     : 1px solid color-mix(lightgray, black 10%);
+        border     : 1px solid lightgray;
         padding    : 15px;
         background : white;
         box-shadow : var(--box-shadow-config);
@@ -2510,7 +2941,7 @@ dt {
     .acronym {
 
         .acronym-detail {
-           top: 60px;
+            top: 60px;
             right: 20px;
             bottom: unset;
             left: unset;
@@ -2525,7 +2956,7 @@ dt {
 
         
         .cite-detail {
-           top: 60px;
+            top: 60px;
             right: 20px;
             bottom: unset;
             left: unset;
@@ -2536,8 +2967,8 @@ dt {
         }
 
     }
-     
-     
+    
+    
 
 }
 
@@ -2546,9 +2977,13 @@ dt {
 @media only screen and (min-width: 580px) and (max-width: 1200px) {
     
     body {
-        margin       : 0px;
+        margin       : 0;
     }
 
+    chapter
+    {
+        margin : 0;
+    }
 
     nav {
         display      : none;
@@ -2556,8 +2991,8 @@ dt {
 
     article {
         padding-top  : 120px;
-        margin-left  : 15%;
-        margin-right : 15%;              
+        margin-left  : 10%;
+        margin-right : 10%;              
     }
     
     .page {
@@ -2565,15 +3000,152 @@ dt {
         width        : inherit;
     }
     
-    nav.wide {
-        display      : none;
-    }
+    
 
-    crosslinks-bottom {
+    .crosslinks-bottom {
         width        : 100% !important;
     }
+
+
+    .crosslinks-top {
+
+         span:nth-last-child(2) {
+             position: unset;
+    }
+
+    .nav-button:nth-last-child(1) {
+        position: unset;
+    }
+        
+    }
     
     
+}
+
+
+.introduction
+{
+    padding: 20px;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+.tableofcontents
+{
+    
+    columns     : 1;
+    position    : relative;
+    max-width   : 700px;
+    padding     : 0px;
+    white-space : pre;
+    border        : 2px solid lightgray;
+    padding       : 20px;
+    margin      : auto;
+    text-wrap   : stable;
+    background    : var(--table-row-color);
+    
+    .chapterToc,
+    .appendixToc
+    {
+        margin-top: 40px;
+        font: var(--toc--text-font);
+        color: black !important;
+        
+        border-bottom: 0.1px solid lightgray;
+        display: flow-root;
+        line-height: var(--title-linewidth);
+
+        
+        .number
+        {
+            font: var(--toc--text-font);
+            float: right;
+        }
+        
+        .title
+        {
+            white-space: initial;
+            float: inherit;
+            width: 200px;
+
+            a
+            {
+                color: black  !important;
+            }
+        }
+    }
+    
+    .sectionToc
+    {
+        padding-bottom : 10px;
+        color          : black ;
+        display        : flow-root;
+        font           : var(--toc-s-----font);
+        line-height    : var(--text-lineheight) !important;
+
+        margin-top     : 30px;
+        
+        .number
+        {
+            float         : right;
+        }
+        
+        .title {
+            white-space   : normal;
+            float         : inherit;
+            padding-right : 5px;
+            
+            a{
+                color: black !important;
+            }
+        }
+    }
+
+    .subsectionToc
+    {
+        padding-top    : 0px;
+        padding-left   : 20px;
+        padding-right  : 0px;;
+        padding-bottom : 0px;
+        
+        font           : var(--toc-ss----font);
+        
+        line-height    : var(--text-lineheight) !important;
+        display        : flow-root;
+
+        .number {
+            float: right;
+            color: black;
+        } 
+        
+        .title {
+            white-space: normal;
+            float: inherit;
+            padding-right: 10px;
+            a{
+                color: black;
+            }
+        }
+        
+    }
+
+     .subsubsectionToc
+    {
+        padding-top    : 0px;
+        padding-left   : 40px;
+        padding-right  : 0px;
+        padding-bottom : 0px;                       
+        display        : flow-root;
+
+        a {
+            font           : var(--toc-sss---font);
+            color: black !important;
+            line-height    : var(--text-lineheight) !important;
+            margin: 0px;
+        }
+        
+    }
+
 }
 
 /* Mobile Only Settings ----------------------------------------------------- */
@@ -2588,16 +3160,33 @@ dt {
         line-height        : var(--text-lineheight);
     }
 
+    .chapterHead {
+        font: var(--h1-s-text-font);
+        line-height        : 1.5;
+    }
+
+    .crosslinks-top {
+        position: sticky;
+        top: 0px;
+        background: white;
+        padding: 20px;
+        z-index: 100;
+        
+    }
+    
     .chapter {
         padding-top        : 40px; 
         margin             : auto;
         border-right       : 0px;
-        width              : 80%;
+        width              : 90%;
         padding-left       : 0px;
     }
 
-    nav.wide {
-        display            : none;
+    .crosslinks-top,
+    nav.wide
+    {
+        
+        display: none !important;               
     }
 
     
@@ -2610,11 +3199,31 @@ dt {
         
     }
 
-    h2, h3, H4 {
+    h2, h3, h4 {
+
+        line-height:  var(--title-linewidth) !important;
         a {
             svg {
                 visibility : hidden;
             }
+        }
+    }
+
+    h3
+    {
+        .number,
+        .title
+        {
+            font: var(--h3-s-text-font) !important;
+        }
+    }
+
+    h4
+    {
+        .number,
+        .title
+        {
+            font: var(--h4-s-text-font) !important;
         }
     }
 
@@ -2625,31 +3234,54 @@ dt {
 
 
 
-    .mode-line {
-        
-        display            : none;
+    .mode-line
+    {        
+        display            : block;
+
+        .supp-line
+        {
+            display : none;
+        }
+
+        .core-line
+        {
+            top:    0px;
+            height: 40px;
+            border-bottom: 3px solid gray;
+            box-shadow: 0px 7px 9px -10px black;
+        }
+
+        .button-group
+        {
+            display: none;
+        }
+
+        .current-header
+        {
+            padding-top: 0px;
+            padding-left: 10px;
+            white-space: nowrap;
+
+            .header-pretext
+            {
+                display: none;
+            }
+        }
         
     }
 
     .crosslinks-top {
         
-        font               : var(--mode-text-font);
+        display: none;
         
     }
 
     .crosslinks-bottom {
-        left               : 0px;
-        right              : 0px;
-        font               : var(--mode-text-font);
-        width              : 100%;
-
-        a {
-            margin         : 10px !important;
-        }
-        
+        background: var(--chosen-science) !important;
+        width : 100% !important;
     }
 
-  
+    
 
     figcaption.caption {
         font               : var(--mode-text-font) !important;
@@ -2658,11 +3290,7 @@ dt {
         word-break         : break-word;
     }
 
-    .margin-comment {
-        display            : none;
-    }
-
-   
+    
     .acronym {
 
         .acronym-detail {
@@ -2674,18 +3302,72 @@ dt {
         }
     }
 
-
-    .margin {
-        .ellipsis {
-            display        : none;
+    .margin-comment
+    {
+        .ellipsis
+        {
+            display: none;
         }
-        .sidenote {
-            display        : none;
+        
+        .sidenote::before
+        {
+            content:  "(";
+            font: unset;
+        }
+
+        .sidenote::after
+        {
+            content:  ")";
+        }
+        
+        .glossary,
+        .sidenote
+        {
+            padding    : 0px !important;
+            position   : unset;
+            background : unset;
+            display    : inline;
+            border     : unset;
+            box-shadow : unset;
+            color      : gray !important;
+            font       : var(--main-text-font);
+
+            code
+            {
+                color: unset;
+                font-size: unset;
+            }
+        }
+    }
+    
+    .sidenote
+    {
+        width          : unset;
+        border         : unset;        
+        position       : unset;
+        padding-top    : 10px;
+        padding-bottom : 10px;
+
+        .sidenote-image
+        {
+            display: block;
+            width: 50% !important;
+            margin: auto;
+        }
+        
+        .sidenote-text
+        {
+            display: block;
+            border-bottom: 0px solid;
+            border-top: 0px solid;
+            color: gray;
         }
     }
 
-    .sidenote {
-        width              : 30% !important;
+
+    dd
+    {
+        margin-left: 5px !important;
     }
 
 }
@@ -2700,7 +3382,7 @@ dt {
     button {
         bottom         : 20px;
         width          : 80px;
-        height         : 30px;
+        height         : 40px;
         background     : none;
         border-radius  : var(--button-radius);
         color          : white;
@@ -2725,26 +3407,26 @@ dt {
     right              : 10px;
     z-index            : 100;
 
-  a {
-      color            : black !important;
-  }
+    a {
+        color            : black !important;
+    }
 
-  kbd {
-      float            : right;
-      margin-left      : 20px;
-  }
+    kbd {
+        float            : right;
+        margin-left      : 20px;
+    }
 
-  hr {
-      height           : 0.5px;
-      border           : none;
-      background-color : gray;
-      
-  }
-  
+    hr {
+        height           : 0.5px;
+        border           : none;
+        background-color : gray;
+        
+    }
+    
 }
 
 .dropdown:hover .dropdown-content {
-  display: block;
+    display: block;
 }
 
 /* Utility Classes ---------------------------------------------------------- */
@@ -2765,7 +3447,152 @@ dt {
     transition         : all 0.5s ease;
 }
 
+.category-def {
+    color: black;
+}
+
+.def-var-arguments {
+    font-weight: normal !important;
+}
+
+
+.def-name {
+
+        color: var(--code-color) !important;
+        font: var(--code-text-font);
+    }
+
+.deftypefn,
+.deffn,
+.deffnx,
+.defvr{
+    text-decoration: underline;
+    text-underline-position: under;
+
+    code {
+        text-decoration: unset;
+    }
+    
+
+    
+}
+
+.def-name
+{
+    color: var(--code-color) !important;
+    font: var(--code-text-font);
+}
+
+
+
+.option,
+.options,
+.command {
+    font: var(--code-text-font); 
+    color: #57109D !important;
+}
+
+
+.env {
+    font: var(--code-text-font); 
+    color: #ff6362 !important;
+}
+
+pre {
+
+    code {
+        color : black !important;
+
+    }
+}
+
+dl.def-block
+{
+    border             : 1px solid lightgray;
+    grid: unset;
+    
+
+    dt.def-line
+    {
+        /* Control how function definition headers are displayed */
+        background     : var(--code-h-block);
+        padding-left   : 10px;
+        padding-top    : 5px;
+        padding-bottom : 5px;
+    }
+
+    dd
+    {
+        /* Control how the contents of the function definition are displayed */
+        background     : var(--output-code);
+        padding-top    : 10px;
+        padding-left   : 15px;
+        padding-right  : 15px;
+        margin         : 0px !important;        
+    }
+    
+    dt
+    {
+        
+        em
+        {
+            font-style: initial;
+        }
+        
+        code
+        {
+            text-decoration         : underline;
+            text-underline-position : under;
+            font-weight             : normal !important;
+            background-color        : transparent !important;
+            border                  : 0px !important;
+            color                   : var(--chosen-science) !important;
+            font                    : var(--code-text-font);
+        }
+    }
+}
+
+
+.active-manual
+{
+    float: right;
+ 
+}
+
+.verb,
+.samp {
+    font             : var(--code-text-font);
+    background-color : transparent !important;
+    font-weight      : normal !important;
+    border           : 0px !important;
+    color            : #336b8b !important;
+    padding-left     : 0px !important;
+    padding-right    : 0px !important;
+}
+
+
+var.def-var-arguments {
+
+
+        color: black;
+        font: var(--code-text-font);
+
+    
+}
+
+dd {
+    margin-left: 30px !important;
+
+    p {
+        margin-top: 5px !important;
+    }
+}
+
+
+
 /* -----------------------------------------------------------------------------
 /* flatweb.css ends here.
 /*
 /*
+
+

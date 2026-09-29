@@ -47,27 +47,27 @@ var moodMenu = {
     "Visit" : [{
         
         "Central GitHub" : [{
-            "key"         : "",
-            "command"     : "toggleHelp()"
+            "key"         : "Link",
+            "command"     : "window.location.href = $('.toc-links').find('a').eq(0).attr('href')"
         }],
         "Google Scholar" : [{
-            "key"         : "-",
-            "command"     : "toggleHelp()"
+            "key"         : "Link",
+            "command"     : "window.location.href = $('.toc-links').find('a').eq(1).attr('href')"
         }],
         "ResearchGate" : [{
-            "key"         : "-",
-            "command"     : "toggleHelp()"
+            "key"         : "Link",
+            "command"     : "window.location.href = $('.toc-links').find('a').eq(2).attr('href')"
         }],
 
         "Sep-i" : [],
        
         "Proposed Thesis Topics" : [{
-            "key"         : "-",
-            "command"     : "toggleHelp()"
+            "key"         : "Link",
+            "command"     : "window.location.href = $('.toc-links').find('a').eq(3).attr('href')"
         }],
         "mciDoc LaTeX Documentation" : [{
-            "key"         : "-",
-            "command"     : "toggleHelp()"
+            "key"         : "Link",
+            "command"     : "window.location.href = $('.toc-links').find('a').eq(4).attr('href')"
         }],
         
     }],
@@ -81,10 +81,17 @@ var moodMenu = {
                 }
             ],
 
+            "Reset Page" : [
+                {
+                    "key"         : "r",
+                    "command"     : "menu__refreshPage()"
+                }
+            ],
+
             "View Lecture Information" : [{
 
                  "key"         : "l",
-                "command"     : "menu__showLectureStructure()"
+                "command"      : "menu__showLectureStructure()"
                 
             }],
 
@@ -102,6 +109,11 @@ var moodMenu = {
             }],
 
             "Sep-ii" : [],
+
+            "Reader View" : [{
+                "key"         : "w",
+                "command"     : "view__reader()"
+            }],
 
             "About WebBook" : [{
                 "key"         : "h",
@@ -134,7 +146,7 @@ var moodMenu = {
         }],
 
         "To Previous Topic" : [{
-            "key"         : "n",
+            "key"         : "p",
             "command"     : "navigate__gotoPrevChapter()"
         }],
 
@@ -192,9 +204,6 @@ var entryPoint = 'index.html'
 // it is checked only once as it hangs the web-browser. 
 var bool_marginImageCheck = false;
 
-// Define the introduction header text to be used when the user is first
-// accessing the website.
-var string_introHeader = "Welcome to WebBook";
 
 // Used in representing what icons/links do and then can be relayed to modeline.
 var ModeLineSelector = {
@@ -348,9 +357,10 @@ function util__updateModeline (text) {
  */
 function menu__describeState() {
 
+    
     // Here we do a small check-up and remove an unnecessary link from the menu
     if( $('.crosslinks-bottom').find('a').last().text().length == 0) {
-        $('.crosslinks-bottom').find('a').last().remove()
+       // $('.crosslinks-bottom').find('a').last().remove()
     }
     
     $('.crosslinks-bottom').find('.display-state').remove();
@@ -385,7 +395,7 @@ function menu__toggleTOC() {
         $("nav.wide")
             .stop()
             .animate({width: 'toggle', opacity: 'toggle' }, 'slow');
-        $('.crosslinks-bottom').css('width', 'calc(100% - 336px)')
+        $('.crosslinks-bottom').css('width', '100%')
 
 
         // Show screen size specific actions
@@ -431,50 +441,149 @@ function menu__killCurrentTab() {
     win.close();
 }
 
+function util__wrap(el, wrapper) {
+    el.parentNode.insertBefore(wrapper, el);
+    wrapper.appendChild(el);
+}
+
 function menu__makeCurrentPageTOC() {
     // Start by parsing the entire Chapter to get the content.
     
-    const headings = document.querySelectorAll('page h4, page h5, page h6');
+    const headings = document.querySelectorAll('page h3, page h4, page h5, page h6');
 
-    const post    = document.querySelector('.core-line');
+    const post     = document.querySelector('.core-line');
     
     const details = document.createElement('div');
+    
     details.setAttribute('class', 'chapter-contents');
     
     const content = document.createElement('div');    
     content.setAttribute('class', 'content');
     
-    const summary = document.createElement('span');
+    const summary = document.createElement('h3');
     summary.setAttribute('class', 'header');
-    summary.innerHTML = 'On This Page';
+    summary.innerHTML = 'Page Table of Contents';
 
-    details.append(content);
-    
+    details.append(content);    
     content.append(summary);
     
     headings.forEach((el) => {
-        const p = document.createElement('p');
-        p.setAttribute('class', 'toc-' + el.tagName.toLocaleLowerCase());
-        const a = document.createElement('a');
-        a.setAttribute('class', 'mel-toc-link');
-        a.textContent = el.textContent //.replace(/^\s*[0-9]\.[0-9]\.[0-9]\s*/g, '');
+
+        const a     = document.createElement('a');
+        const title = document.createElement('span');
+        title.setAttribute('class', 'title');
+        
+        const number = document.createElement('span');
+        number.setAttribute('class', 'number');
+        
+        const header = document.createElement('span');
+        
+        // Remove any newlines from the string prior to parsing
+        pre_header   = el.textContent.replace(/[\r\n]+/gm, " ");
+        
+        if (el.tagName == 'H3')
+        {
+            header.setAttribute('class', 'sectionToc');
+            
+            a.textContent      = pre_header.replace(/^\s*[0-9]+\.[0-9]\s*(.*)/g, '$1');
+
+            if (/^\s*([0-9]+\.[0-9]).*/.test(pre_header))
+            {           
+                number.textContent = pre_header.replace(/^\s*([0-9]+\.[0-9]).*/g, '$1');
+            }
+            else
+            {
+                number.textContent = ''
+            }
+        }
+        else if (el.tagName == 'H4')
+        {
+            header.setAttribute('class', 'subsectionToc');
+            a.textContent = pre_header.replace(/^\s*[0-9]+\.[0-9]+\.[0-9]+\s*(.*)/g, '$1');
+
+            if (/^\s*([0-9]+\.[0-9]+\.[0-9]).*/.test(pre_header))
+            { 
+                number.textContent = pre_header.replace(/^\s*([0-9]+\.[0-9]+\.[0-9]).*/g, '$1');
+            }
+            else
+            {
+                number.textContent = ''
+            }
+                
+        }
+        else if (el.tagName == 'H5')
+        {
+            header.setAttribute('class', 'subsubsectionToc');
+            a.textContent = pre_header;
+            a.textContent = pre_header;
+            number.textContent = '';            
+        }
+        
+       
+        title.append(a);
+        pp = el.textContent.replace(/^\s*([0-9]\.[0-9]\.[0-9])\s.*/g, '$1');
         a.href = '#' + el.id;
-        p.append(a);
-        content.append(p);
+        header.append(number);
+        header.append(title);
+        content.append(header);
     });
     
     
     post.prepend(details);
 
+
+    if ($('.def-block').length > 0) {
+
+        $('.chapter-contents')
+            .find('.content')
+            .append('<div class="toc-command-contents">' +
+                    '<div class="section-header">' +
+                    '<h3 class="header">' +
+                    'Code Definitions' +
+                    '</h3>'  +
+                    '</div>' + 
+                    '</div>');
+
+        $('.def-block').each(function() {
+
+            // First determine the title of the block
+            var _commandType = $(this)
+                .find('.category-def')
+                .text().replace(/[\r\n]+/gm, " ");
+
+            var _commandName = $(this)
+                .find('.def-name')
+                .text().replace(/[\r\n]+/gm, " ");
+
+            var _commandHeader = '<span class="title"><b>' + _commandType + '</b><span class="def-name">' + _commandName + '</span></span><span class="number"></span>'
+           ;
+
+            var _commandIDlink = $(this).find('a').attr('href');
+
+            console.log(_commandIDlink)
+
+            $('.chapter-contents')
+                .find('.toc-command-contents')
+                .append(
+                    '<span class="generic-command-header">' +
+                        '<a href="' + _commandIDlink + '">' +
+                        _commandHeader +
+                        '</a>' +
+                        '</span>');
+
+        });
+    }
+
     if ($('.info-block').length > 0) {
         
         $('.chapter-contents')
             .find('.content')
-            .append('<div class="toc-contents">' +
-                    '<span class="header">' +
+            .append('<div class="toc-info-contents">' +
+                    '<div class="section-header">' +
+                    '<h3 class="header">' +
                     'Information Blocks' +
-                    '</span>' +
-                    '<hr>' +
+                    '</h3>'  +
+                    '</div>' + 
                     '</div>');
         
         $('.info-block').each(function() {
@@ -497,9 +606,9 @@ function menu__makeCurrentPageTOC() {
             $(this).attr('id',_infoIDlink);
 
             $('.chapter-contents')
-                .find('.toc-contents')
+                .find('.toc-info-contents')
                 .append(
-                    '<p class="generic-header">' +
+                    '<p class="generic-info-header">' +
                         '<a href="#' + _infoIDlink + '">' +
                         _infoHeader +
                         '</a>' +
@@ -543,7 +652,7 @@ function menu__toggleCurrentPageTOC() {
  */
 function menu__hideTOCforProperView () {
 
-    if (util__describeViewState("Tablet") || util__describeViewState("Phone")) {
+    if (util__describeViewState("Tablet")) {
 
         $("nav.wide")
             .stop()
@@ -555,8 +664,19 @@ function menu__hideTOCforProperView () {
         $("nav.wide")
             .stop()
             .show('slow');
-        $('.crosslinks-bottom').css('width', 'calc(100% - 336px)')
+        $('.crosslinks-bottom').css('width', '100%')
     }
+}
+
+
+/** 
+ * Refresh Page if content is stuck.
+ *
+ *
+ * @return 
+ */
+function menu__refreshPage () {
+    window.location.reload();
 }
 
 /** 
@@ -613,8 +733,7 @@ function ShowHelpMenu() {
 
 function navigate__gotoNextChapter() {
 
-    var hreflink = document.
-        getElementsByClassName('nav-next')[0].parentElement.href;
+    var hreflink = $('.crosslinks-top').children().eq(0).find('a').attr('href');
 
     if (typeof hreflink == 'undefined') {
         window
@@ -626,8 +745,7 @@ function navigate__gotoNextChapter() {
 
 function navigate__gotoPrevChapter() {
     
-    var hreflink = document.
-        getElementsByClassName('nav-prev')[0].parentElement.href
+    var hreflink = $('.crosslinks-top').children().eq(1).find('a').attr('href');
 
     if (typeof hreflink == 'undefined') {
         window.alert("Reached beginning of WebBook. There are no more chapters to go back...");
@@ -646,18 +764,24 @@ function navigate__toBottomOfPage () {
 }
 
 function navigate__gotoIndexPage () {
-    window.location.href = entryPoint;
+
+    if (document.URL.includes('index.html')) {
+        window.alert("You are already on Entry Point.");
+    } else {    
+        window.location.href = entryPoint;
+    }
 }
 
 
 function navigate__gotoChapterPage() {
 
     if ($('h2').length < 1) {
-    
-    const hreflink = document.
-          getElementsByClassName('nav-up')[0].parentElement.href
-    
+
+        var hreflink = $('.crosslinks-top').children().eq(2).find('a').attr('href');
+     
         window.location.href = hreflink
+    } else {
+        window.alert("You are already on a Chapter page. Nowhere to go!");
     }
 }
 
@@ -666,6 +790,26 @@ function navigate__gotoChapterPage() {
 
 // Here we create a simple function to hide exercises and other relevant boxes
 // as they are not immediately relevant to the reader.
+
+let reader_mode = false;
+
+function view__reader() {
+    
+
+    if ($("nav.wide").first().css('top') == "50px") {
+    
+        $("nav.wide").animate({top: '0'});
+        $("nav.wide").animate({height: '100vh'});
+    } else {
+
+         $("nav.wide").animate({top: '50px'});
+        $("nav.wide").animate({height: 'calc(100vh - 50px)'});
+
+    }
+
+    $(".mode-line").fadeToggle();
+    $(".crosslinks-bottom").fadeToggle();
+}
 
 
 function HideMyBody(selected_button) {
@@ -692,46 +836,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
 });
 
-
-/** 
- * Remove some text about the index and the number 0 as they are a remnants
- * and are also there as an `index.html' is required by github
- * pages. Here, we quickly fixt the naming of them for better presentation.
- *
- *
- * @return 
- */
-function filter__ChangeIndexInTOC () {
-
-    // Change the Text within the TOC.
-    $('nav')
-        .find('.chapterToc')
-        .first()
-        .find('.title').find('a').text(string_introHeader);
-
-    // Remove the number element
-     $('nav')
-        .find('.chapterToc')
-        .first()
-        .find('.number').text('');
-
-}
-
-// Here, we need to do a slight conversion of the infamous `chapter 0' as it
-// is not correct and it would be better to filter it out and just write the
-// `welcome to webBook' string on it.
-
-document.addEventListener('DOMContentLoaded', (event) => {
-
-    if ($('.chapterHead').length > 0){
-    
-    if (document.querySelectorAll('.chapterHead')[0]
-        .innerText.match("Chapter.*0")) {
-        document.querySelectorAll('.chapterHead')[0]
-        .innerText = "Welcome to WebBook"
-    }
-    }
-});
 
 
 // Next we need to sort out some header information on the TOC as there is a
@@ -1012,6 +1116,28 @@ function menu__showLectureStructure () {
 }
 
 
+
+function menu__CreateIndexSearch () {
+
+    $('html').append('<div class="index-search"></div>')
+
+    $.ajax({
+                url:     'info_block.db',
+                type:    'GET',
+        
+        success: function(data){
+            $('.index-search').html($(data));
+        document.querySelectorAll('pre code').forEach((block) => {
+            hljs.addPlugin(new CopyButtonPlugin());
+            hljs.highlightElement(block);
+        });
+        }
+    });
+
+    
+
+}
+
 /** 
  * Fixes the problem where the citations within margin comments whould shoot to
  * the side of the margin. Now they would be put below the margin comment.
@@ -1176,54 +1302,6 @@ function UpdateCrosslinks () {
 }
 
 
-/** 
- * Finds and removes broken links in `Welcome to WebBook' page.
- *
- *
- * @return 
- */
-function filter__removeIndexLink () {
-
-    // Determine the name of the page.
-    var url=location.href;
-
-
-    /** 
-     * Searches the top and bottom crosslinks and then removes the selected CLS
-     * with given TEXT.
-     *
-     * @param cls class to be searched within crosslinks.
-     * @param text text to be replaced.
-     *
-     * @return 
-     */
-    function __removeLink (cls, text) {
-        $('.crosslinks-top, .crosslinks-bottom')
-            .each(function () {
-                $(this).find(cls)
-                    .parent()
-                    .replaceWith('<span class=nav-inactive>' +
-                                 text +
-                                 '</span>');
-            });
-    }
-    
-    // We introduce a small condition where each chapter page is parsed to
-    // remove the UP link which leads to the broken website.
-    if ($('h2').length > 0) {
-        
-        __removeLink ('.nav-up', 'UP') 
-    }
-
-    // Here we look at the `index.html' file and remove some links which point
-    // to the broken links.
-    if (url.includes(entryPoint)) {
-
-        __removeLink ('.nav-prev', 'PREV')
-        __removeLink ('.nav-prev-tail', 'PREV-TAIL')
-        __removeLink ('.nav-up', 'UP') 
-    }
-}
 
 function filter__removeLineswithinFloats () {
 
@@ -1245,25 +1323,6 @@ function filter__removeLineswithinFloats () {
 
 
 
-
-function add__ContentHeaderCoreLine () {
-
-    let headerText = $('h2, h3').first().text().replace(/^\s*/g, '');
-
-    $('.core-line')
-        .append(
-            '<div class="current-header">' +
-                '<span class="header-pretext">' +
-                'Viewing | ' +
-                '</span>' +
-                '<span class="header-text">' +
-                headerText +
-                '</span>' +
-            '</div>');
-
-    
-
-}
 
 function menu__createTableOfFigures () {
 
@@ -1440,54 +1499,6 @@ function modeline__showLinkInformation () {
                    })
     }
 
-    // Here we define a specific control sequence for viewing acronyms
-    $('.glossary').hover(function(){
-        util__updateModeline('Viewing <b>' +
-                       $(this).text() +
-                       '</b>: ' +
-                       $(this).parent().parent().find('.acronym-long').text())},
-                         function(){
-                             util__updateModeline('')
-                         })
-
-     // Here we define a specific control sequence for viewing anectodes
-    $('.margin-comment').hover(function(){
-        util__updateModeline('Viewing anectodal information')},
-                         function(){
-                             util__updateModeline('')
-                         })
-
-
-    
-    $('.nav-next').hover(function(){
-        menu__getNavLinkInfo('.nav-next')},
-                         function(){
-                             util__updateModeline('')
-                         })
-
-    $('.nav-prev').hover(function(){
-        menu__getNavLinkInfo('.nav-prev')},
-                         function(){
-                             util__updateModeline('')
-                         })
-
-    $('.nav-up').hover(function(){
-        menu__getNavLinkInfo('.nav-up')},
-                         function(){
-                             util__updateModeline('')
-                         })
-
-    $('.nav-prev-tail').hover(function(){
-        menu__getNavLinkInfo('.nav-prev-tail')},
-                         function(){
-                             util__updateModeline('')
-                         })
-
-     $('.nav-front').hover(function(){
-        menu__getNavLinkInfo('.nav-front')},
-                         function(){
-                             util__updateModeline('')
-                         })
 }
 
 function modeline__generateModeMenuList(json){
@@ -1563,8 +1574,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     filter__removeLineswithinFloats();
 
-    add__ContentHeaderCoreLine();
-
 
     // Remove empty paragraphs
     filter__removeEmptyParagraphs();
@@ -1575,7 +1584,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     filter__removeUnnecessaryTOCs();
 
-    filter__removeIndexLink();
     filter__fixIndexTabHeader();
 
     // Add paragraph tags to divs which are missing them `information' for
@@ -1586,7 +1594,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-    anim__highlightSideNoteImage ();
+    // anim__highlightSideNoteImage ();
 
     
     
@@ -1626,8 +1634,6 @@ $(document).ready(function () {
     // Remove the TOC if it is displayed in an unsupported view
     menu__hideTOCforProperView ();
 
-    // Fix `Index 0' present in the TOC.
-    filter__ChangeIndexInTOC();
     
     if (util__describeViewState("Max-Computer")
         && bool_marginImageCheck == false) {
@@ -1655,6 +1661,11 @@ document.addEventListener("keypress", function(event) {
 
         break;
 
+     case "w":
+        view__reader();
+
+        break;
+
     case "n":
         navigate__gotoNextChapter();
          break;
@@ -1677,11 +1688,19 @@ document.addEventListener("keypress", function(event) {
 
     case "l":
         menu__showLectureStructure();
+        break;
+
+    case ".":
+        menu__toggleCurrentPageTOC();
          break;
 
     case "i":
         window.location.href = entryPoint;
-         break;
+        break;
+
+    case "r":
+        menu__refreshPage()
+        break;
         
     }
     

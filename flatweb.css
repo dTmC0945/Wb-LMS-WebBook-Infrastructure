@@ -406,7 +406,7 @@ pagefind-modal-trigger {
 
 }
 
-
+.cite-block,
 .acronym-block {
     
     margin-top    : 50px;
@@ -653,6 +653,9 @@ pre.verbatim {
     
 }
 
+#hidden {
+    display: none;
+}
 
 .index-search
 {
@@ -990,7 +993,7 @@ ul {
     line-height: 2;
     
     p {
-        padding: 5px;
+        padding: 0px;
     }
 }
 
@@ -1074,7 +1077,6 @@ table {
 /* Define how equations `equation' and `equation*' looks */
 table.equation-star,
 table.equation {
-    display: grid;
     width: auto;
     margin: auto;
 
@@ -1097,9 +1099,9 @@ table.equation {
    Here we have to reverse the `display: grid' as equation* does not have a
    number
 */
-table.equation-star
+table.equation
 {
-    display: revert;
+    display: grid;
 }
 
 
@@ -1341,8 +1343,9 @@ nav.wide {
             
             .title
             {
-                white-space: initial;
-                float: inherit;
+                white-space: initial;             
+                max-width     : 200px;
+                float         : left;
                 width: 200px;
 
                 a
@@ -1369,7 +1372,8 @@ nav.wide {
             
             .title {
                 white-space   : normal;
-                float         : inherit;
+                max-width     : 200px;
+                float         : left;
                 padding-right : 5px;
                 
                 a{
@@ -1757,8 +1761,7 @@ nav.wide {
 
     hr
     {
-        border         : 0.1px solid var(--exer-block);
-        margin-top: 10px;
+        border         : 1px solid var(--exer-block);
     }
     
     .exer-upper {
@@ -1996,6 +1999,54 @@ nav.wide {
 pre
 {    
     border             : 1px solid lightgray;
+
+    .code-header
+    {
+        position: absolute;
+        width: 100%;
+        background: #fae8b6;
+        padding-top: 8px;
+        padding-bottom:13px;
+      
+        
+    
+    .code-language
+    {
+        
+        color                   : black;
+        font                    : var(--main-text-font);
+        font-weight: bold;
+        font-size               : small;
+        padding-left: 0.4em;
+
+        margin-right:10px;
+    }
+
+    .code-download
+    {
+       
+        font                    : var(--main-text-font);
+        font-size               : small;
+        border                  :         1px solid lightgray;
+        border-radius           : 2px;
+        padding                 : 4px;
+        color                   : black;
+        transition                  :
+            color 0.4s ease,
+            background 0.4s ease,
+            border-color 0.4s ease;
+          margin-right:10px;
+        
+    }
+
+    .code-download:hover
+    {
+        color                       : white;
+        border                      : solid 1px darkgray;
+        background                  : #b3860d;
+    }
+
+    }
     
     code
     {        
@@ -2008,7 +2059,7 @@ pre
 
     .hljs
     {
-        margin-top     : -1em;
+        margin-top: 0em;
     }
 
     .language-text
@@ -2897,17 +2948,29 @@ dl
         
     }
 
-      .desc-block
-    {
-        display: block;
-        background: var(--desc-body);
+     .desc-block
+     {
+         display: block;
+         background: var(--desc-body);
 
-        .desc-upper
-        {
-            display: block;
-        }
-        
-    }
+         .desc-upper
+         {
+             display: block;
+         }
+         
+     }
+
+       .exer-block
+     {
+         display: block;
+         background: var(--exer-body);
+
+         .exer-upper
+         {
+             display: block;
+         }
+         
+     }
 
     
 
@@ -3258,6 +3321,8 @@ dl
 
         .current-header
         {
+            overflow: auto;
+            width: calc(100vw - 100px);
             padding-top: 0px;
             padding-left: 10px;
             white-space: nowrap;
@@ -3587,6 +3652,58 @@ dd {
         margin-top: 5px !important;
     }
 }
+
+
+/* INDEX PAGE SETTINGS ====================================================== */
+
+.theindex
+{
+    .index-group-letter
+    {
+        font-weight: bold;
+        background: var(--chosen-science);
+        display: grid;
+        padding: 5px;
+        margin-bottom: 10px;
+        margin-top: 30px;
+        color: white;
+    }
+
+    .index-subitem
+    {
+        margin-top: 5px;
+        margin-bottom: 5px;
+        padding-left: 30px;
+        font-style: italic;
+        
+
+        a
+        {
+            float: right;
+        }
+
+
+        }
+        
+        
+
+    
+    .index-item
+    {
+        padding-left: 10px;
+        margin-top: 5px;
+        margin-bottom: 5px;
+
+        a
+        {
+            float: right;
+        }
+
+    }
+
+    margin-bottom: 30px;
+}
+    
 
 
 

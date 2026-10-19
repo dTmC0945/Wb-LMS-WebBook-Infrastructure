@@ -104,8 +104,13 @@ var moodMenu = {
             }],
 
             "Toggle CurrentPage TOC" : [{
-                "key"         : "t",
+                "key"         : ".",
                 "command"     : "menu__toggleCurrentPageTOC()"
+            }],
+
+            "View Detailed TOC" : [{
+                "key"         : ",",
+                "command"     : "menu__toggleDetailTOC()"
             }],
 
             "Sep-ii" : [],
@@ -207,13 +212,6 @@ var bool_marginImageCheck = false;
 
 // Used in representing what icons/links do and then can be relayed to modeline.
 var ModeLineSelector = {
-    ".bi-file-pdf"       : 'View PDF at the current header',
-    ".fa-github"         : 'View GitHub Profile of the Author',
-    ".fa-google-scholar" : 'View Google Scholar Profile of the Author',
-    ".fa-researchgate"   : 'View ResearchGate Profile of the Author',
-    ".fa-book"           : 'View the Thesis Proposal given by the Author',
-    ".fa-file-lines"     : 'View the mciDoc LaTex Class',
-    ".nav-tail"     : 'Go to the bottom of the current page',
 }
 
 // FUNCTIONS -------------------------------------------------------------------
@@ -427,6 +425,21 @@ function menu__toggleTOC() {
     } 
 }
 
+function menu__getEqRef () {
+   
+    $('a').hover(function(){
+        $('.eqref-block').remove();
+        var $div = $("<div>", {class: "eqref-block"});
+        $("article").append($div)
+        link = $(this).attr('href').replace(/#/g, '')
+        console.log(link)
+        $div.append($('[id="' + link + '"]').parent().clone())
+        MathJax.typeset()
+    },  function(){
+        $('.eqref-block').remove();
+    });
+}
+
 /** 
  * Kills current tab. As we can not close it until unless, the tab was opened by
  * code we need to circumvent it by creating a faux tab.
@@ -448,6 +461,8 @@ function util__wrap(el, wrapper) {
 
 function menu__makeCurrentPageTOC() {
     // Start by parsing the entire Chapter to get the content.
+
+    $('.chapter-contents').remove();
     
     const headings = document.querySelectorAll('page h3, page h4, page h5, page h6');
 
@@ -531,7 +546,6 @@ function menu__makeCurrentPageTOC() {
     
     post.prepend(details);
 
-
     if ($('.def-block').length > 0) {
 
         $('.chapter-contents')
@@ -572,6 +586,92 @@ function menu__makeCurrentPageTOC() {
                         '</span>');
 
         });
+    }
+
+    if ($('.exer-block').length > 0) {
+        
+        $('.chapter-contents')
+            .find('.content')
+            .append('<div class="toc-exer-contents">' +
+                    '<div class="section-header">' +
+                    '<h3 class="header">' +
+                    'Exercise Blocks' +
+                    '</h3>'  +
+                    '</div>' + 
+                    '</div>');
+        
+        $('.exer-block').each(function() {
+
+            // First determine the title of the block
+            var _infoHeader = $(this)
+                .find('.exer-upper')
+                .text()
+                .replace(/^\s*Example\s(.*?)\s*:\s*(.*)\s*$/g, '<span class="title">$2</span><span class="number">$1</span>');
+
+            // Generate the ID Link
+            var _infoIDlink = $(this)
+                .find('.exer-upper')
+                .text()
+                .replace(/^\s*Example\s(.*?)\s*:\s*(.*)\s*$/g, 'exer-block $1')
+                .replace(/ /g, '-')
+                .replace(/\s*$/g, '');
+
+            // Next add the ID attribute so it can be later directed.
+            $(this).attr('id',_infoIDlink);
+
+            $('.chapter-contents')
+                .find('.toc-exer-contents')
+                .append(
+                    '<p class="generic-info-header">' +
+                        '<a href="#' + _infoIDlink + '">' +
+                        _infoHeader +
+                        '</a>' +
+                        '</p>');
+        });
+
+    }
+
+    if ($('.theo-block').length > 0) {
+        
+        $('.chapter-contents')
+            .find('.content')
+            .append('<div class="toc-theo-contents">' +
+                    '<div class="section-header">' +
+                    '<h3 class="header">' +
+                    'Theory Blocks' +
+                    '</h3>'  +
+                    '</div>' + 
+                    '</div>');
+        
+        $('.theo-block').each(function() {
+
+            // First determine the title of the block
+            var _infoHeader = $(this)
+                .find('.theo-upper')
+                .text()
+                .replace(/^\s*Theory\s(.*?)\s*:\s*(.*)\s*$/g, '<span class="title">$2</span><span class="number">$1</span>');
+
+            // Generate the ID Link
+            var _infoIDlink = $(this)
+                .find('.theo-upper')
+                .text()
+                .replace(/^\s*Theory\s(.*?)\s*:\s*(.*)\s*$/g, 'theo-block $1')
+                .replace(/ /g, '-')
+                .replace(/\s*$/g, '');
+
+            // Next add the ID attribute so it can be later directed.
+            $(this).attr('id',_infoIDlink);
+
+            $('.chapter-contents')
+                .find('.toc-theo-contents')
+                .append(
+                    '<p class="generic-info-header">' +
+                        '<a href="#' + _infoIDlink + '">' +
+                        _infoHeader +
+                        '</a>' +
+                        '</p>');
+        });
+
     }
 
     if ($('.info-block').length > 0) {
@@ -616,6 +716,12 @@ function menu__makeCurrentPageTOC() {
         });
 
     }
+
+    if (!util__describeViewState("Max-Computer"))
+    {
+        $(".chapter-contents").insertAfter('.crosslinks-top')
+    }{
+    }
    
 }
 
@@ -630,18 +736,22 @@ function menu__toggleCurrentPageTOC() {
 
     // First determine the current state of the primary TOC.
     const otpState = $('.chapter-contents').css('display');
+        
+        
+        if (otpState == 'none') {
+            $(".chapter-contents")
+                .stop()
+                .animate({width: 'toggle', opacity: 'toggle' }, 'slow');
+        } else {
+            $(".chapter-contents")
+                .stop()
+                .animate({width: 'toggle', opacity: 'toggle' }, 'slow');
 
-    if (otpState == 'none') {
-        $(".chapter-contents")
-            .stop()
-            .animate({width: 'toggle', opacity: 'toggle' }, 'slow');
-    } else {
-        $(".chapter-contents")
-            .stop()
-            .animate({width: 'toggle', opacity: 'toggle' }, 'slow');
-
-    }  
+        }
 }
+
+
+
 
 /** 
  * Automatically removes the primary TOC from view if display does not support
@@ -1115,7 +1225,37 @@ function menu__showLectureStructure () {
 
 }
 
+function menu__createDetailTOC () {
 
+    $('article').append("<div class='reference-page'><div class='detail-toc'></nav></div>");  
+     
+    $.ajax({
+        url:     'content/toc-detail.html',
+        type:    'GET',
+        
+        success: function(data){
+            $('.reference-page').find('.detail-toc').html($(data));}});
+}
+
+
+function menu__toggleDetailTOC() {
+
+    // First determine the current state of the primary TOC.
+    const otpState = $('.reference-page').css('display');
+    
+    if (otpState == 'none') {
+        $(".reference-page")
+            .stop()
+            .animate({height: 'toggle', opacity: 'toggle' }, 'slow');
+    } else {
+        $(".reference-page")
+            .stop()
+            .animate({height: 'toggle', opacity: 'toggle' }, 'slow');
+
+    }
+
+    
+}
 
 function menu__CreateIndexSearch () {
 
@@ -1596,6 +1736,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // anim__highlightSideNoteImage ();
 
+    menu__createDetailTOC () 
     
     
 });
@@ -1605,7 +1746,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 $(window).resize(function() {
     
-    menu__hideTOCforProperView ()
+    menu__hideTOCforProperView ();
+    menu__makeCurrentPageTOC();
 
     // Update the user on which view mode they are viewing their content on
     menu__describeState();
@@ -1690,9 +1832,15 @@ document.addEventListener("keypress", function(event) {
         menu__showLectureStructure();
         break;
 
+    case ",":
+        menu__toggleDetailTOC();
+        break;
+
     case ".":
-        menu__toggleCurrentPageTOC();
-         break;
+        if (util__describeViewState("Max-Computer")){
+            menu__toggleCurrentPageTOC();
+        }
+        break;
 
     case "i":
         window.location.href = entryPoint;

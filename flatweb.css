@@ -62,6 +62,8 @@
     --code-block      : #586e75;
     --code-h-block    : #F2F2F2;
 
+    --nav-font-color  : white;
+    --nav-width       : 336px;
 
     /* Colour domain settings */
     --fundamental-science : #42395f;
@@ -161,30 +163,128 @@ pagefind-modal-trigger {
     padding-bottom : 30px;
 }
 
+.main-toc::before
+{
+    content:  "Main Table of Contents";
+    font: var(--h3-s-text-font);
+}
+
+.main-toc
+{
+    columns        : 1;
+    position       : relative;
+    margin-left    : 10px;
+    margin-right   : 10px;
+    white-space    : pre;
+    text-wrap-mode : nowrap;
+    text-wrap      : stable;
+    color          : black ;
+
+    a
+    {
+        color: black !important;
+    }
+
+    hr
+    {
+        border     : none;
+        background : lightgray;
+        height     : 1px;
+    }
+
+    .toc-links
+    {
+        font            : var(--toc--text-font);
+        color           : black;
+        overflow        : auto;
+        white-space     : pre;
+        display         : flex;
+        justify-content : space-between;
+        padding-top     : 0px;
+        padding-bottom  : 20px;
+        
+    }
+
+    .chapterToc,
+    .appendixToc,
+    .sectionToc,
+    .subsectionToc
+    {
+        display     : flow-root;
+        line-height : var(--text-lineheight) !important;
+
+        .title
+        {
+            white-space : initial;             
+            max-width   : 300px;
+            float       : left;
+        }
+        
+        .number
+        {
+            float : right;
+        }
+    }
+
+    .addchapToc,
+    .chapterToc,
+    .appendixToc
+    {
+        margin-top     : 40px;
+        font           : var(--toc--text-font);
+        font-weight    : bold;
+        padding-bottom : 5px;
+        border-bottom  : 0.5px solid gray;       
+    }
+    
+    .sectionToc
+    {
+        padding-bottom : 10px;
+        margin-top     : 30px;
+
+        font           : var(--toc-s-----font);
+              
+        .title {
+            max-width     : 300px;
+            padding-right : 5px;                      
+        }
+    }
+
+    .subsectionToc
+    {
+        padding-top    : 0px;
+        padding-left   : 20px;        
+        padding-bottom : 0px;
+        padding-right  : 0px;;
+        
+        font           : var(--toc-ss----font);
+      
+        .title {
+            padding-right: 10px;         
+        }       
+    }
+}
+
 
 /* Here we define the on the page TOC  */
 .chapter-contents
 {
 
-    position              : fixed;
-    display               : none;
-    
+    display               : block;    
     text-align            : left;
     z-index               : 1;
     
-    width                 : 336px;
-    overflow-y            : scroll;
     line-height           : 1.5;
-    top                   : 51px;
-    bottom                : 41px;
+    
     overscroll-behavior-y : none;
     box-sizing            : content-box; /* So the width will be 100% + 17px */
     padding-bottom        : 10px;
     right                 : 0px;
-
-    background            : snow;
     
-    border-left          : 1px solid black;
+    border-top               : 1px solid lightgray;
+    border-bottom               : 1px solid lightgray;
+    margin-top: 10px;
+    margin-bottom: 10px;
     scrollbar-width      : none;
 
     .section-header
@@ -333,10 +433,7 @@ pagefind-modal-trigger {
     
 
     .content {
-        columns: 1;
         position: relative;
-        width: 240px;
-        padding: 20px 0 0px 0;
         white-space: pre;
         text-wrap-mode: nowrap;
         margin: 18px 36px;
@@ -353,7 +450,10 @@ pagefind-modal-trigger {
     
     .header {
         
-        font: bold 20px/16px "Source Sans Pro", sans-serif;
+        font: var(--h3-s-text-font);
+        color: var(--chosen-science);
+        padding-top: 5px;
+        padding-bottom: 5px;
         text-wrap: auto;
     }
 
@@ -406,11 +506,13 @@ pagefind-modal-trigger {
 
 }
 
+.footnote-block,
 .cite-block,
 .acronym-block {
     
-    margin-top    : 50px;
+    margin-top    : 20px;
     margin-bottom : 20px;
+    font-size     : small ;
 
     .acr-list {
         display : block;
@@ -458,6 +560,23 @@ pagefind-modal-trigger {
 
 }
 
+.eqref-block
+{
+    position: fixed;
+    top: 60px;
+    right: 50px;
+    background: var(--comment-color);
+    border: 1px solid black;
+    box-shadow: var(--box-shadow-config);
+    padding: 15px;
+
+    figure
+    {
+        width: 300px;
+    }
+}
+    
+
 pre.verbatim {
     /* Control the way output code is displayed. */
     color:      var(--code-block);
@@ -482,7 +601,7 @@ pre.verbatim {
         position: fixed;
         height: 40px;
         right: 0px;
-        width: calc(100vw);
+        width: 100%;
         top: 10px;
         border-bottom: var(--nav-thin-line);
         background: var(--modeline-color);
@@ -529,7 +648,9 @@ pre.verbatim {
     right: 10%;
     bottom: 10%;
     background: var(--chosen-science);
-    border: 1px solid black;
+    border-left: 0px solid black;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
     z-index: 100;
     line-height: var(--text-lineheight);
 }
@@ -537,17 +658,20 @@ pre.verbatim {
 /* A parent div to control how the iframe behaves within the page */
 .reference-page {
 
+    display: none;
+    overflow: hidden;
     box-shadow: var(--box-shadow-config);
     position: fixed;
     padding: 10px;
-    top: 10%;
-    left: 10%;
-    right: 10%;
-    bottom: 10%;
-    background: var(--chosen-science);
+    top: 50px;
+    right: 100px;
+    width: 700px;
+    bottom: 50px;
+    background: var(--comment-color);
     border: 1px solid black;
-    z-index: 100;
-    line-height: var(--text-lineheight);
+    z-index: 1000;
+    overflow-y: scroll;
+
 
     iframe {
         position: relative;
@@ -555,6 +679,98 @@ pre.verbatim {
         width: 100%;
     }
 
+    /* Now here we sort out the settings for the detailed TOC presentation */
+
+    .detail-toc:before
+    {    
+        content: "Verbose Table of Contents \A\A";
+        white-space: pre;
+        font: var(--h1-s-text-font);
+    }
+    
+    .detail-toc {
+        padding-top: 100px;
+        padding-bottom: 100px;
+        padding-left: 50px;
+        padding-right: 50px;
+
+        a{
+            color: black !important;
+        }
+
+        a:hover
+        {
+            color: var(--chosen-science); !important;
+            border-bottom: solid 1px darkgray; !important;
+        }
+        
+        .block,
+        .chapterToc,
+        .sectionToc,
+        .subsectionToc,
+        .subsubsectionToc
+        {
+            display        : flow-root;
+            color          : black;
+            line-height    : var(--text-lineheight) !important;
+
+            .title
+            {
+                white-space   : normal;
+                float         : left;
+            }
+            
+            .number
+            {
+                float         : right;
+            }                     
+        }
+        
+        .sectionToc
+        {
+            margin-left    : 10px;
+            padding-bottom : 10px;                        
+            font           : var(--toc-s-----font);
+            margin-top     : 20px;                       
+        }
+
+    
+        .sectionToc
+        {
+            padding-left   : 10px;
+            padding-bottom : 10px;                        
+            font           : var(--toc-s-----font);
+            margin-top     : 20px;                     
+        }
+
+        .subsectionToc
+        {
+            padding-top    : 0px;
+            padding-left   : 20px;
+            padding-bottom : 0px;             
+            font           : var(--toc-ss----font);             
+            
+            
+        }
+
+        .subsubsectionToc
+        {
+            padding-top    : 0px;
+            padding-left   : 60px;
+            padding-bottom : 0px;             
+            font           : var(--toc-ss----font);                                  
+        }
+
+        .block
+        {
+            padding-top    : 0px;
+            padding-left   : 40px;
+            padding-bottom : 0px;
+            
+            font           : var(--toc-ss----font);
+                                  
+        }        
+    }
 }
 
 .documentation {
@@ -660,13 +876,11 @@ pre.verbatim {
 .index-search
 {
     position: fixed;
-    max-width: 1000px;    
+    max-width: 700px;
     height: calc(100vh - 200px);
     background: var(--comment-color);
     border: 2px solid black;
     top: 70px;
-    right: 50px;
-    left: 20px;
     bottom: 120px;
     overflow-y: auto;
     z-index: 99999;
@@ -850,52 +1064,10 @@ pre.verbatim {
 }
 
 
-button.otp {
-    z-index       : 1;
-    bottom        : 20px;    
-    width         : 80px;
-    height        : 30px;
-    background    : none;
-    border-radius : var(--button-radius);
-    color         : white;
-    border        : none;
-    margin-right  : 20px;
-    font-weight   : bold;
-}
-
-button.help {
-    z-index       : 1;
-    bottom        : 20px;    
-    width         : 80px;
-    height        : 30px;
-    background    : none;
-    border-radius : var(--button-radius);
-    color         : white;
-    border        : none;
-    margin-right  : 20px;
-    font-weight   : bold;
-}
-
-button.toc {
-    z-index       : 1;
-    bottom        : 20px;    
-    width         : 80px;
-    height        : 30px;
-    background    : none;
-    border-radius : var(--button-radius);
-    color         : white;
-    border        : none;
-    margin-right  : 40px;
-    font-weight   : bold;
-}
-
-
-
-
 /* Global Font Settings  ---------------------------------------------------- */
 
 /* Control how the alignment of the blocks look */
-a.copiable-link
+.copiable-link
 {
     position      : absolute;
     padding-left  : 5px;
@@ -907,21 +1079,16 @@ a.copiable-link
     margin-top    : 6px;
 }
 
-
-
-
+/* Control how a code snippet looks in text. (i.e, Use the man command) */    
 .verb {
-    /* Control how a code snippet looks in text. (i.e, Use the man command) */
-    
-    color: var(--code-color);
+    color            : var(--code-color);
     font             : var(--code-text-font);
     word-break       : break-all;
 }
 
-
+/* Define the keyboard notation on the webpage */
 kbd {
-    /* Define the keyboard notation on the webpage */
-    
+        
     color            : #333;
     background-color : #eee;
     border           : 1px solid #b4b4b4;
@@ -1243,18 +1410,22 @@ table.equation
 
 /* Navigation Settings ------------------------------------------------------ */
 
+
+
 nav.wide {
 
     background      : var(--chosen-science);
-
-    font            : 800 15px/30px "Source Sans Pro", sans-serif;
-    color           : white;
+    font            : var(--toc--text-font);
+    line-height     : var(--text-lineheight);
+    color           : var(--nav-font-color);
+    
     overflow        : auto;
-    overflow-x      : hidden    ;
+    overflow-x      : hidden;
+    
     white-space     : pre;
     scrollbar-width : thin;
     position        : fixed;
-    width           : 336px;
+    width           : var(--nav-width);
     top             : 50px;
 
     z-index         : 150;
@@ -1262,44 +1433,46 @@ nav.wide {
     border-right    : var(--nav-thin-line);
     max-height      : calc(100vh) !important;
     
-    scrollbar-color:  darkgray var(--chosen-science);
+    scrollbar-color : var(--chosen-science);
 
     
     hr {
         color: white;
-    }
-
-    
+    }    
 
     .toc-links {
-        font: 300 15px/24px "Source Sans Pro", sans-serif;
-        color: black;
-        overflow: auto;
-        white-space: pre;
-        display: flex;
-        justify-content: space-between;
-        padding-top: 0px;
-        padding-bottom: 20px;
+        font            : var(--toc--text-font);
+        color           : black;
+        overflow        : auto;
+        white-space     : pre;
+        display         : flex;
+        justify-content : space-between;
+        padding-top     : 0px;
+        padding-bottom  : 20px;
 
         a {
             color: white;
         }
     }
 
-    .nav-footer {
 
-        font: 12px/18px "Source Sans Pro", sans-serif;
-        color: color-mix(white, var(--chosen-science) 30%);
-        margin-bottom: 20px;
-        margin-top: 20px;
+    .nav-footer,
+    .nav-comments
+    {
+        font          :  var(--comm-text-font);
+        color         : var(--nav-font-color);
+    }
+    
+    .nav-footer
+    {        
+        margin-bottom : 20px;
+        margin-top    : 20px;
     }
 
-    .nav-comments {
-
-        font: 12px/18px "Source Sans Pro", sans-serif;
-        color: color-mix(white, var(--chosen-science) 30%);
-        white-space: normal;
-        font-style: italic;
+    .nav-comments
+    {       
+        white-space   : normal;
+        font-style    : italic;
     }
 
     img {
@@ -1603,10 +1776,10 @@ nav.wide {
     
 }
 
-.title {
-    max-width: 70%;
-    float: left;
-}
+/* .title { */
+/*     max-width: 70%; */
+/*     float: left; */
+/* } */
 
 /* BLOCK SETTINGS ----------------------------------------------------------- */
 
@@ -1661,321 +1834,188 @@ nav.wide {
     }    
 }
 
+.block-minor
+{
+    margin-bottom : 10px;
+    margin-top    : 10px;
+
+    font          : var(--box--text-font);
+    color         : var(--block-text-color);
+
+    border-style  : solid;
+    border-width  : 1px;
+    box-shadow    : var(--box-shadow-config);
+
+    .body
+    {
+        padding-top   : 5px;
+        padding-left  : 15px;
+        padding-right : 15px;
+        margin        : 0px !important;
+
+        p
+        {
+            margin    : 8px 0;           
+        }
+    }
+
+    .alert
+    {
+        font-weight   : bold;
+    }
+}
+
 .knowledge
 {
-    border             : 1px solid var(--knowledge-block);
-    background     : var(--knowledge-body);
-    font               : var(--box--text-font);
-    color              : var(--block-text-color);
-    
-    margin-bottom      : 10px;
-    margin-top         : 10px;
-
-    .knowledge-upper
-    {
-        display        :none;   
-        background     : var(--knowledge-block);
-        padding-left   : 10px;
-        padding-top    : 5px;
-        padding-bottom : 5px;
-        line-height    : var(--text-lineheight);
-        font-weight    : bold;
-        color          : white;
-    }
-
-    .body
-    {
-        background     : var(--knowledge-body);
-        padding-top    : 5px;
-        padding-left   : 15px;
-        padding-right  : 15px;
-        margin         : 0px !important;
-    }
-
-    p
-    {
-        margin         : 8px 0;
-        font           : var(--box--text-font);      
-        line-height    : var(--text-lineheight);
-    }
-
-    alert
-    {
-        font-weight    : bold;
-    }
-
-    
+    border-color      : var(--knowledge-block);
+    background        : var(--knowledge-body);
 }
 
-.warning {
-
-    border             : 1px solid var(--alert-block);
-    background     : var(--alert-body);
-    font               : var(--box--text-font);
-    color              : var(--block-text-color);
-    
-    margin-bottom      : 10px;
-    margin-top         : 10px;
-    
-    .warning-upper
-    {
-        display        :none;
-        background     : var(--alert-block);
-        padding-left   : 10px;
-        padding-top    : 5px;
-        padding-bottom : 5px;
-        line-height    : var(--text-lineheight);
-        font-weight    : bold;
-    }
-
-    .body
-    {
-        background     : var(--alert-body);
-        padding-top    : 5px;
-        padding-left   : 15px;
-        padding-right  : 15px;
-        margin         : 0px !important;
-    }
-
-    p
-    {
-        margin         : 8px 0;
-        font           : var(--box--text-font);      
-        line-height    : var(--text-lineheight);
-    }
-
-    alert
-    {
-        font-weight    : bold;
-    }
+.warning
+{   
+    border-color      : var(--alert-block);
+    background        : var(--alert-body);
 }
 
+/* MAJOR BLOCK CONFIGURATION ------------------------------------------------ */
 
-.exer-block {
+.block-major {
 
-    display       : grid;
-    border        : 1px solid var(--exer-block);
+    border-width  : 1px;
+    border-style  : solid;
     margin-top    : 10px;
     margin-bottom : 10px;
     box-shadow    : var(--box-shadow-config);
 
     hr
     {
-        border         : 1px solid var(--exer-block);
+        border-width  : 1px;
+        border-style  : dashed;
     }
     
-    .exer-upper {
-          
-        background     : var(--exer-block);
-        padding-left   : 10px;
+    .upper {
+
+        width          : 100%;
+        display        : inline-block;
         padding-top    : 5px;
         padding-bottom : 5px;
         line-height    : var(--text-lineheight);
         
-        .exer-title,
-        .exer-header
+        .title,
+        .header
         {           
             color      :  white;          
         }
-        
+
+        .header
+        {
+            padding-left: 10px;
+        }      
     }
-
-   
+    
     .body {
-
-        background     : var(--exer-body);
         padding-top    : 5px;
         padding-left   : 15px;
+        padding-bottom : 10px;
         padding-right  : 15px;
         margin         : 0px !important;
     }
 
-    p {
-         margin         : 8px 0;
+    p
+    {
+        margin         : 8px 0;
         font           : var(--box--text-font); 
         line-height    : var(--text-lineheight);
     }
-
+    
 }
-
 
 
 .info-block
 {
-
-    display       : grid;
-    border        : 1px solid var(--info-block);
-    margin-top    : 10px;
-    margin-bottom : 10px;
-    box-shadow    : var(--box-shadow-config);
+    border-color    : var(--info-block);
     
     hr
     {
-
-       border         : 1px dashed var(--info-block);
+       border-color : var(--info-block);
     }
 
-
-    .info-upper
+    .upper
     {
-        
-        background     : var(--info-block);
-        padding-left   : 10px;
-        padding-top    : 8px;
-        padding-bottom : 8px;
-        line-height    : var(--text-lineheight);
-        font           : var(--box--text-font);
-
-        code
-        {
-            color : white !important;
-        }
-        
-        .info-title,
-        .info-header
-        {           
-            color      :  white;          
-        }
+        background  : var(--info-block);
     }
-
+          
     .body
     {
-        background     : var(--info-body);
-        padding-top    : 5px;
-        padding-left   : 15px;
-        padding-right  : 15px;
-        margin         : 0px !important;
-
-        .quote
-        {
-            margin       : 20px;
-            padding-left : 10px;
-            color        : black;
-        }
-    }
-
-    
-    p
-    {
-        margin         : 8px 0;
-        font           : var(--box--text-font); 
-        line-height    : var(--text-lineheight);
-    }
-
-    
-    
+        background  : var(--info-body);         
+    }   
 }
+
+
+.exer-block
+{
+    border-color    : var(--exer-block);
+    
+    hr
+    {
+       border-color : var(--exer-block);
+    }
+
+    .upper
+    {
+        background  : var(--exer-block);
+    }
+          
+    .body
+    {
+        background  : var(--exer-body);         
+    }   
+}
+
 
 .desc-block
 {
-   
-    display            : grid;
-    border             : 1px solid var(--desc-block);
-    margin-top:        10px;
-    margin-bottom:        10px;
-        box-shadow    : var(--box-shadow-config);
+    border-color    : var(--desc-block);
     
-    hr {
-        border         : 1px dashed var(--desc-block);
-    }
-
-    .desc-upper
+    hr
     {
-        
-        background     : var(--desc-block);
-        padding-left   : 10px;
-        padding-top    : 5px;
-        padding-bottom : 5px;
-        line-height    : var(--text-lineheight);
-        
-        .desc-title,
-        .desc-header
-        {           
-            color      :  white;          
-        }
+       border-color : var(--desc-block);
     }
 
-    .body {
-        background     : var(--desc-body);
-        padding-top    : 5px;
-        padding-left   : 15px;
-        padding-right  : 15px;
-        margin         : 0px !important;
-    }
-
-    
-    p
+    .upper
     {
-        margin         : 8px 0;
-        font           : var(--box--text-font); 
-        line-height    : var(--text-lineheight);
+        background  : var(--desc-block);
     }
-
-    .code {
-        background     : none;
-    }
-
-    alert {
-        font-weight    : bold;
-        color          : color-mix(var(--info-block), black 30%) !important;
-    }
-}
-
-.theo-block {
-
-    
-    display            : grid;
-    border             : 1px solid var(--theo-block);
-    box-shadow    : var(--box-shadow-config);
-    
-    hr {
-        border         : 1px dashed var(--theo-block);
-    }
-
-    .theo-upper
-    {
-        
-        background     : var(--theo-block);
-        padding-left   : 10px;
-        padding-top    : 5px;
-        padding-bottom : 5px;
-        line-height    : var(--text-lineheight);
-        
-        .theo-title,
-        .theo-header
-        {           
-            color      :  white;          
-        }
-    }
-
+          
     .body
     {
-        background     : var(--theo-body);
-        padding-top    : 5px;
-        padding-left   : 15px;
-        padding-right  : 15px;
-        margin         : 0px !important;
-    }
-
-    
-    p
-    {
-        margin         : 8px 0;
-        font           : var(--box--text-font); 
-        line-height    : var(--text-lineheight);
-    }
-
-    .code
-    {
-        background     : none;
-    }
-
-    alert
-    {
-        font-weight    : bold;
-    }
-    
+        background  : var(--desc-body);         
+    }   
 }
+
+
+
+.theo-block
+{
+    border-color    : var(--theo-block);
+    
+    hr
+    {
+       border-color : var(--theo-block);
+    }
+
+    .upper
+    {
+        background  : var(--theo-block);
+    }
+          
+    .body
+    {
+        background  : var(--theo-body);         
+    }   
+}
+
+
 
 /* Define the way `quotes' supposed to look */
 .quote
@@ -2059,7 +2099,8 @@ pre
 
     .hljs
     {
-        margin-top: 0em;
+        white-space: pre;
+        overflow-x: auto;
     }
 
     .language-text
@@ -2663,6 +2704,7 @@ dl
         font-size       : x-small;
         vertical-align  : super;
         font-weight     : bold;
+        
     }
 }
 
@@ -2831,8 +2873,289 @@ dl
     }
 }
 
+@media only screen and (max-width: 1420px)
+{
+
+    .margin
+    {
+        .sidenote
+        {
+            .copiable-link
+            {
+                display: none;
+            }
+        }
+    }
+}
+
+
+@media only screen and (min-width: 1420px)
+{
+   .chapter-contents
+{
+
+    position              : fixed;
+    display               : none;
+    
+    text-align            : left;
+    z-index               : -10;
+    top:      40.5px;
+    
+    width                 : 336px;
+    overflow-y            : scroll;
+    line-height           : 1.5;
+    bottom                : 31px;
+    overscroll-behavior-y : none;
+    box-sizing            : content-box; /* So the width will be 100% + 17px */
+    padding-bottom        : 10px;
+    right                 : 0px;
+
+    background            : var(--comment-color);
+    
+    border-left          : 1px solid black;
+    border-bottom        : 1px solid var(--comment-color);
+    border-top           : 1px solid var(--comment-color);
+    scrollbar-width      : none;
+
+    .section-header
+    {
+        margin: unset;
+        margin-bottom: 10px;
+
+        h3
+        {
+            padding-bottom:  0px;
+            
+        }
+    }
+    
+    .chapterToc,
+    .appendixToc
+    {
+        margin-top: 40px;
+        font: bold 16px/24px "Source Sans Pro", sans-serif;
+        color: black ;
+        
+        border-bottom: 0.1px solid  rgba(255, 255, 255, .5);
+        display: flow-root;
+
+        
+        .number
+        {
+            font: bold 16px/24px "Source Sans Pro", sans-serif;
+            float: right;
+        }
+        
+        .title
+        {
+            white-space: initial;
+            float: inherit;
+            width: 200px;
+
+            a
+            {
+                color: white !important;
+            }
+        }
+    }
+
+    
+    .sectionToc
+    {
+        padding-bottom : 10px;
+        color          : black ;
+        display        : flow-root;
+        font           : var(--toc-s-----font);
+        line-height    : var(--text-lineheight) !important;
+
+        margin-top     : 30px;
+        
+        .number
+        {
+            float         : right;
+        }
+        
+        .title {
+            white-space   : normal;
+            float         : inherit;
+            padding-right : 5px;
+            
+            a{
+                color: black !important;
+            }
+        }
+    }
+
+    .generic-info-header,
+    .generic-command-header,
+    .subsectionToc
+    {
+        padding-top    : 0px;
+        padding-left   : 20px;
+        padding-right  : 0px;;
+        padding-bottom : 0px;
+        
+        font           : var(--toc-ss----font);
+        
+        line-height    : var(--text-lineheight) !important;
+        display        : flow-root;
+
+        .number {
+            float: right;
+            color: black;
+        } 
+        
+        .title {
+            white-space: normal;
+            float: inherit;
+            padding-right: 10px;
+            a{
+                color: black;
+            }
+        }
+
+        
+        
+    }
+
+     .subsubsectionToc
+    {
+        padding-top    : 0px;
+        padding-left   : 40px;
+        padding-right  : 0px;;
+        padding-bottom : 0px;
+        
+        font           : var(--toc-ss----font);
+        
+        line-height    : var(--text-lineheight) !important;
+        display        : flow-root;
+
+        .number {
+            float: right;
+            color: black;
+        } 
+        
+        .title {
+            white-space: normal;
+            float: inherit;
+            padding-right: 10px;
+            a{
+                color: black;
+            }
+        }
+
+        
+        
+    }
+
+    
+
+    .addchapToc { 
+        padding: 12px 0 0 36px;
+        font:
+            normal 16px/24px "Source Sans Pro",
+            sans-serif;
+        color: #7aa0b8;
+        list-style-type: none;
+        line-height: 30px;
+        font-weight: bold;
+    }
+    
+
+    .content {
+        columns: 1;
+        position: relative;
+        width: 240px;
+        padding: 20px 0 0px 0;
+        white-space: pre;
+        text-wrap-mode: nowrap;
+        margin: 18px 36px;
+        text-wrap: stable;
+        text-wrap-mode: wrap;
+        text-wrap-mode: wrap;
+    }
+
+    hr {     
+        height: 0.5px;
+        border: none;
+        background-color: gray;
+    }
+    
+    .header {
+        
+        font: bold 20px/16px "Source Sans Pro", sans-serif;
+        text-wrap: auto;
+    }
+
+    p {
+        padding: 2px 10px 2px 20px;
+        font: var(--side-text-font);
+        line-height: 15px;
+        color: white;
+        line-height: 10px;
+        display: flow-root;
+        margin: 0px 0  !important;
+        word-wrap: break-word;
+        word-break: break-word;
+
+    }
+
+    a {
+        color: black !important;
+    }
+
+    .toc-h4 {
+        padding: 0px 0 0 20px;
+        font: normal 12px/15px "Source Sans Pro", sans-serif;
+        line-height: 15px;
+        line-height: 20px;
+        display: flow-root;
+        
+    }
+
+    .toc-h5 {
+        padding-left: 30px !important;
+        padding-right:10px;
+        line-height: var(--title-linewidth);
+    }
+
+
+    .generic-header{
+        padding: 0px 0 0 20px;
+        font: normal 12px/15px "Source Sans Pro", sans-serif;
+        line-height: 15px;
+        line-height: 20px;
+        display: flow-root;
+        
+    }
+
+    .toc-contents {
+
+        padding-top: 40px;
+    }
+
+}
+
+
+    .margin
+    {
+        .sidenote
+        {
+           
+            .sidenote-text
+            {
+                .ellipsis
+                {
+                    position: absolute;
+                    right: 230px;
+                }
+            }
+        }
+    }
+}
 
 @media only screen and (min-width: 1200px) {
+
 
     /* Control how the page is displayed on the current page */
     .chapter {
@@ -3088,10 +3411,11 @@ dl
 
 .introduction
 {
-    padding: 20px;
-    padding-left: 40px;
-    padding-right: 40px;
+    padding: 10px;
 }
+
+
+
 
 .tableofcontents
 {
